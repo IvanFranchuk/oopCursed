@@ -11,7 +11,7 @@ public partial class Product
     public float? Price { get; set; }
     public string? Type { get; set; }
     public int? Quantity { get; set; }
-    public string? Charecter { get; set; }
+    public string? Character { get; set; }
     //public System.Windows.Media.Brush MarkColor { get; set; }
 
     public DateTime? ManufactureDate { get; set; }
@@ -20,7 +20,7 @@ public partial class Product
     public virtual Warehouse? Warehouse { get; set; }
 
     public Product() { }
-   public Product(int id, string name, float pricePerUnit, DateTime manufactureDate, string type,  int quantity,  int shelfLife, String charecter)
+   public Product(int id, string name, float pricePerUnit, DateTime manufactureDate, string type,  int quantity,  int shelfLife, String character)
     {
         Id = id;
         Name = name;
@@ -29,7 +29,7 @@ public partial class Product
         Type = type;
         Quantity = quantity;
         ShelfLife = shelfLife;
-        Charecter = charecter;
+        Character = character;
     }
 
     public Product(Product other)
@@ -41,7 +41,7 @@ public partial class Product
         Type = other.Type;
         Quantity = other.Quantity;
         ShelfLife = other.ShelfLife;
-        Charecter = other.Charecter;
+        Character = other.Character;
     }
 
     public override string ToString()

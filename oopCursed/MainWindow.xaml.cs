@@ -41,28 +41,10 @@ namespace oopCursed
             ObservableCollection<Product> products = new ObservableCollection<Product>();
             products.Add(new Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
             products.Add(new Product(products[0]));
-            products.Add(new Product {Id = 4, Name = "4142fbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120,/* MarkColor = (Brush)converter.ConvertFromString("#a4fffff"),*/ Charecter = "P" });
-            products.Add(new Product { Id = 4, Name = "e41bebe", Price = 30, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "E" });
-            products.Add(new Product {Id = 4, Name = "bebwqee", Price = 40, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "S" });
-            products.Add(new Product {Id = 4, Name = "bebwqee", Price = 40, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "S" });
-            products.Add(new Product {Id = 4, Name = "gasbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "T" });
-            products.Add(new Product {Id = 4, Name = "w31bebe", Price = 140, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "R" });
-            products.Add(new Product {Id = 4, Name = "41bebe", Price = 102, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120 , Charecter = "A" });
-            products.Add(new Product {Id = 4, Name = "beb12e", Price = 1320, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120 , Charecter = "P" });
-            products.Add(new Product {Id = 4, Name = "badaebe", Price = 103, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120 , Charecter = "O" });
-            products.Add(new Product {Id = 4, Name = "badaebe", Price = 103, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120 , Charecter = "N" });
-                        
-            products.Add(new Product { Id = 4, Name = "4142fbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "P" });
-            products.Add(new Product { Id = 4, Name = "e41bebe", Price = 30, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "E" });
-            products.Add(new Product { Id = 4, Name = "bebwqee", Price = 40, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "S" });
-            products.Add(new Product { Id = 4, Name = "bebwqee", Price = 40, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "S" });
-            products.Add(new Product { Id = 4, Name = "gasbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "T" });
-            products.Add(new Product { Id = 4, Name = "w31bebe", Price = 140, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "R" });
-            products.Add(new Product { Id = 4, Name = "41bebe", Price = 102, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "A" });
-            products.Add(new Product { Id = 4, Name = "beb12e", Price = 1320, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "P" });
-            products.Add(new Product { Id = 4, Name = "badaebe", Price = 103, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "O" });
-            products.Add(new Product { Id = 4, Name = "badaebe", Price = 103, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120, Charecter = "N" });
+            products.Add(new Product {Id = 4, Name = "4142fbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120,/* MarkColor = (Brush)converter.ConvertFromString("#a4fffff"),*/ Character = "P" });
+            
             ProductDataGrid.ItemsSource = products;
+            LoadProductsFromDatabase();
         }
 
 
@@ -121,19 +103,7 @@ namespace oopCursed
             }
         }
 
-        private void LoadProductList()
-        {
-            using (var context = new ProductManagerContext())
-            {
-                int warehouseId = UserSession.WarehouseId; // Отримайте ID складу з UserSession
-
-                if (warehouseId != 0)
-                {
-                    // Отримайте всі продукти, які належать до визначеного складу
-                    ProductList = context.Products.Where(p => p.WarehouseId == warehouseId).ToList();
-                }
-            }
-        }
+        
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -160,7 +130,7 @@ namespace oopCursed
                 Quantity = productQuantity,
                 ManufactureDate = manufactureDate,
                 ShelfLife = shelfLife,
-                Charecter = charecter
+                Character = charecter
                 // Встановіть інші властивості продукту
             };
 
@@ -184,6 +154,41 @@ namespace oopCursed
 
             // Немає потреби в окремому методі для оновлення вмісту таблиці, оскільки ObservableColletion вже було змінено і DataGrid автоматично відобразить зміни.
         }
+
+
+
+        private void LoadProductsFromDatabase()
+        {
+            using (var context = new ProductManagerContext())
+            {
+                int warehouseId = UserSession.WarehouseId; // Get the current warehouse ID from UserSession
+
+                if (warehouseId != 0)
+                {
+                    // Retrieve products that belong to the current warehouse
+                    var warehouseProducts = context.Products.Where(p => p.WarehouseId == warehouseId).ToList();
+
+                    // Initialize the products collection if it's null
+                    var products = (ObservableCollection<Product>)ProductDataGrid.ItemsSource;
+                    if (products == null)
+                    {
+                        products = new ObservableCollection<Product>();
+                        ProductDataGrid.ItemsSource = products;
+                    }
+
+                    // Clear the existing products list (if needed)
+                    products.Clear();
+
+                    // Add the retrieved products to the list
+                    foreach (var product in warehouseProducts)
+                    {
+                        products.Add(product);
+                    }
+                }
+            }
+        }
+
+
 
 
 

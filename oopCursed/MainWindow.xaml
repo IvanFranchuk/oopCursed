@@ -1,0 +1,718 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:oopCursed"
+        xmlns:WPF_Neumorphism_Plus="clr-namespace:WPF_Neumorphism_Plus;assembly=WPF_Neumorphism_Plus" x:Class="oopCursed.MainWindow"
+        mc:Ignorable="d"                
+        WindowStyle="None"
+        Height="768" Width="1366"
+        ResizeMode="NoResize"        
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+    <Window.Resources>
+        <Style x:Key="DataGridRowStyle1" TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="0 4 0 0"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+            <Setter Property="ValidationErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBlock Foreground="Red" Margin="2,0,0,0" Text="!" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRow}">
+                        <Border x:Name="DGR_Border" Background="{TemplateBinding Background}" Padding="0 8" BorderThickness="0" CornerRadius="5" SnapsToDevicePixels="True">
+                            <SelectiveScrollingGrid>
+                                <SelectiveScrollingGrid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </SelectiveScrollingGrid.ColumnDefinitions>
+                                <SelectiveScrollingGrid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </SelectiveScrollingGrid.RowDefinitions>
+                                <DataGridCellsPresenter Grid.Column="1" ItemsPanel="{TemplateBinding ItemsPanel}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1" SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Visibility="{TemplateBinding DetailsVisibility}"/>
+                                <DataGridRowHeader Grid.RowSpan="2" SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                            </SelectiveScrollingGrid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#623ed0"/>
+                    <Setter Property="Foreground" Value="#ffffff"/>
+                </Trigger>
+
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#623ed0"/>
+                    <Setter Property="Foreground" Value="#ffffff"/>
+                </Trigger>
+
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#dfdfdf"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="SizeWE"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#69717d"/>
+            <Setter Property="Margin" Value="15 0 15 10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid>
+                            <theme:DataGridHeaderBorder Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" IsPressed="{TemplateBinding IsPressed}" IsHovered="{TemplateBinding IsMouseOver}" IsClickable="{TemplateBinding CanUserSort}" Padding="{TemplateBinding Padding}" SortDirection="{TemplateBinding SortDirection}" SeparatorVisibility="{TemplateBinding SeparatorVisibility}" SeparatorBrush="{TemplateBinding SeparatorBrush}">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </theme:DataGridHeaderBorder>
+                            <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                            <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000"/>
+        <Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="15 0"/>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                            <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Stroke" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#222528"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="Margin" Value="0 10 0 0"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="ColumnWidth" Value="*"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="#dae2ea"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder" CornerRadius="3" Padding="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#9575cd"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="#9575cd"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <!--Window.Resources>
+
+        <ResourceDictionary Source="Themes/Light.xaml"/>
+
+
+    </Window.Resources-->
+
+    <Border  Background="{DynamicResource upBarColor}" 
+            BorderBrush="#2B304D"
+            CornerRadius="20">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Background="{DynamicResource upBarColor}"
+                        Margin="40,0,0,0">
+                <TextBlock Text="07 jul 2005"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Foreground="White"
+                        FontSize="14"
+                        FontFamily="Arial Black"
+                        Margin="5,10,0,0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Background="{DynamicResource upBarColor}"
+                        Orientation="Horizontal"
+                        MouseDown="DragWindow"
+                        >
+                <TextBlock Text="БЕБЕ"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="right"
+                           Foreground="White"
+                           FontSize="14"
+                           FontFamily="Arial Black"
+                           Margin="925,0,10,0"/>
+                <Button Style="{DynamicResource hideWindowButtonStyle}"    Width="20"
+                           Height="20"                           
+                           BorderBrush="#FFf3e989"                           
+                            Background="{DynamicResource upBarColor}"
+                           BorderThickness="3"  
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0" 
+                           Click="MinimizeButton_Click"/>
+                <Button Style="{DynamicResource windowSizeButtonStyle}"    Width="20"
+                           Height="20"
+                           BorderBrush="#FF83d168"                           
+                            Background="{DynamicResource upBarColor}"
+                           BorderThickness="3"    
+                           
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                <Button Style="{DynamicResource closeButtonStyle}"  
+                           Width="20"
+                           Height="20"
+                           BorderBrush="#FFE94D4D"                           
+                            Background="{DynamicResource upBarColor}"
+                           BorderThickness="3"                           
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"
+                           Click="CloseButton_Click" />
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                       Background="{DynamicResource mainColor}">
+                <TextBlock x:Name="WarehouseName"
+                           Text="PES STRAPON"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="{DynamicResource mainTextColor}"
+                           FontSize="30"
+                           FontFamily="Arial Black"
+                           Margin="15,10,0,0"/>
+
+                <TextBlock Text="Product manager"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="right"
+                           Foreground="{DynamicResource mainTextColor}"
+                           FontSize="14"
+                           FontFamily="Arial Black"
+                           Margin="0,10,15,0"/>
+
+                <Button Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="func1"
+                        x:Name="selectionSortButton"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="SelectionSortButton_Click"
+                        Margin="50,20,0,0" />
+                <Button  Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="func2"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="ShellSortButton_Click"
+                        Margin="50,0,0,0"/>
+                <Button  Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="func3"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="QuickSortButton_Click"
+                        Margin="50,0,0,0"/>
+                <Button  Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="func4"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="MergeSortButton_Click"
+                        Margin="50,0,0,0"/>
+                <Button  Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="func5"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="CountSortButton_Click"
+                        Margin="50,0,0,0"/>
+
+                <ToggleButton 
+                    x:Name="DarkThemetb"
+                    Height="60"                     
+                    Checked="DarkThemetb_Checked"
+                    Unchecked="LightThemetb_Checked"/>
+
+                <Border
+                        Width="300"
+                        Height="140"                    
+                        Background="{DynamicResource bgColor}"                    
+                        CornerRadius="40,0,0,0"
+                        Margin="0,137,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Border
+                        Width="120"
+                        Height="120"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="10"
+                        CornerRadius="90">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/4224381964_w640_h640_pes-patron-naduvnoj.webp"/>
+                            </Border.Background>
+
+                            <TextBlock Text="pfp"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            FontSize="20"
+                            FontFamily="Arial Black"/>
+                        </Border>
+                        <StackPanel>
+                            <TextBlock x:Name="Surname"
+                                       Text="ogogogogoog"
+                                       Width="160"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="right"
+                                       Foreground="{DynamicResource mainTextColor}"
+                                       FontSize="20"
+                                       FontFamily="Arial Black"
+                                       Margin="0,25,0,0"/>
+                            <TextBlock x:Name="Name"
+                                       Text="krutelyk"
+                                       Width="160"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="right"
+                                       Foreground="{DynamicResource mainTextColor}"
+                                       FontSize="20"
+                                       FontFamily="Arial Black"/>
+                            <Button
+                                Content="info"
+                                Height="30"
+                                Width="140"
+                                Foreground="white"
+                                Background="#2B304D"
+                                BorderBrush="#2B304D"
+                                FontSize="20"
+                                HorizontalContentAlignment="Left"
+                                Padding="15"
+                                Margin="0,10,0,0"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Grid.Row="1"
+                        Background="{DynamicResource bgColor}">
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{DynamicResource featureButtonStyle}"
+                            Foreground="White"
+                            Content="yakas huynia"
+                            Height="90"
+                            Width="240"
+                            Margin="20,10,0,10" 
+                            FontSize="18" FontWeight="Bold"/>
+                    <Button Style="{DynamicResource featureButtonStyle}"
+                            Foreground="White"
+                            Content="razchelovechivaniya"
+                            Height="90"
+                            Width="240"
+                            Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
+                            />
+                    <Button Style="{DynamicResource featureButtonStyle}"
+                            Foreground="White"
+                            Content="salopitek"
+                            Height="90"
+                            Width="240"
+                            Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
+                            />
+                    <Button Content="i love PESA PATRONA"
+                            Height="90"
+                            Width="240"
+                            Margin="20,10,0,10" 
+                            FontSize="18" 
+                            FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"
+                            >
+                        <Button.Effect>
+                            <WPF_Neumorphism_Plus:Neumorphism_Plus_Shader BorderRadius="30" PrimaryColor="#FFB9BDC5" SecondaryColor="#FFEAF6FB"/>
+                        </Button.Effect>
+                    </Button>
+
+
+                </StackPanel>
+                
+                <Border Height="535"
+                        Width="1020"
+                        Background="{DynamicResource mainColor}"
+                        Margin="0,10,0,10"
+                        CornerRadius="15">
+
+                    <StackPanel>
+
+                            <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}"
+                              Grid.Row="6"
+                                      Height="525"
+                              x:Name="ProductDataGrid">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
+                                <DataGridCheckBoxColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                            <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
+                                    </DataTemplate>
+                                </DataGridCheckBoxColumn.HeaderTemplate>
+                            </DataGridCheckBoxColumn>
+                            
+                            
+                            <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/>
+
+                            <DataGridTemplateColumn Header="Product" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                                <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="#52349c">
+                                                    <TextBlock Text="{Binding Charecter}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+                                            </Border>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTextColumn Header="Price" IsReadOnly="True" Width="*" Binding="{Binding Prise}"/>
+                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
+                                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="*" Binding="{Binding Quantity}"/>
+                                <DataGridTextColumn Header="Manafacture" IsReadOnly="True" Width="*" Binding="{Binding ManufactureDate}"/>
+
+                            <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button  Style="{DynamicResource closeButtonStyle}"  
+                                                     Width="20"
+                                                     Height="20"
+                                                     BorderBrush="#52349c"                           
+                                                     Background="Transparent"
+                                                     BorderThickness="3"                           
+                                                     HorizontalAlignment="Right"
+                                                     VerticalAlignment="Center"
+                                                     Margin="0,0,10,0">                                                
+                                            </Button>
+                                            <Button  Style="{DynamicResource closeButtonStyle}"  
+                                                     Width="20"
+                                                     Height="20"
+                                                     BorderBrush="#FFE94D4D"                           
+                                                     Background="Transparent"
+                                                     BorderThickness="3"                           
+                                                     HorizontalAlignment="Right"
+                                                     VerticalAlignment="Center"
+                                                     Margin="5 0 0 0">
+                                            </Button>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                           
+                    </StackPanel>
+                </Border>
+                <Button
+                    Style="{DynamicResource featureButtonStyle}"
+                    Height="50"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Content=" + Add"
+                    Margin="0 0 25 0"
+                    Foreground="White"
+                    Click="AddButton_Click">
+                </Button>
+
+                <Popup x:Name="AddProductPopup" Placement="Center">
+                        <Grid Background="White" Width="300" Height="800">
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Product Name -->
+                        <TextBlock Text="Name:" Margin="10"/>
+                        <TextBox x:Name="ProductNameTextBox" Margin="10" Grid.Row="1"/>
+
+                        <!-- Price -->
+                        <TextBlock Text="Price:" Margin="10" Grid.Row="2"/>
+                        <TextBox x:Name="PriceTextBox" Margin="10" Grid.Row="3"/>
+
+                        <!-- ManufactureDate -->
+                        <TextBlock Text="Manufacture Date:" Margin="10" Grid.Row="4"/>
+                        <DatePicker x:Name="ManufactureDatePicker" Margin="10" Grid.Row="5"/>
+
+                        <!-- Type -->
+                        <TextBlock Text="Type:" Margin="10" Grid.Row="6"/>
+                        <TextBox x:Name="TypeTextBox" Margin="10" Grid.Row="7"/>
+
+                        <!-- Quantity -->
+                        <TextBlock Text="Quantity:" Margin="10" Grid.Row="8"/>
+                        <TextBox x:Name="QuantityTextBox" Margin="10" Grid.Row="9"/>
+
+                        <!-- ShelfLife -->
+                        <TextBlock Text="Shelf Life:" Margin="10" Grid.Row="10"/>
+                        <TextBox x:Name="ShelfLifeTextBox" Margin="10" Grid.Row="11"/>
+
+                        <!-- Character -->
+                        <TextBlock Text="Character:" Margin="10" Grid.Row="12"/>
+                        <TextBox x:Name="CharacterTextBox" Margin="10" Grid.Row="13"/>
+
+                        <!-- Add Button -->
+                        <Button Content="Add" Click="AddProductConfirm_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="14"/>
+                    </Grid>
+                </Popup>
+
+
+
+            </StackPanel>
+
+
+
+
+        </Grid>
+    </Border>   
+</Window>

@@ -1,0 +1,81 @@
+﻿<Window x:Class="oopCursed.SingUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:oopCursed"
+        mc:Ignorable="d"                
+        WindowStyle="None"
+        Height="768" Width="1366"
+        ResizeMode="NoResize"        
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border
+                BorderBrush="#2B304D"
+                CornerRadius="20">
+        <Border.Background>
+            <ImageBrush ImageSource="/light_login_bg_croped.png"/>
+        </Border.Background>
+        <Grid>
+            <Border
+                        Height="600"
+                        Width="400"
+                        Background="{DynamicResource mainColor}" 
+                        BorderBrush="{DynamicResource upBarColor}"
+                        BorderThickness="5"
+                        CornerRadius="20">
+                <StackPanel>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}"
+                            x:Name="NameTextBox"
+                            Margin="0, 45, 0, 0"
+                            Height="50"
+                            Width="300">
+                    </TextBox>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}"
+                            x:Name="SuranameTextBox"
+                            Margin="0, 15, 0, 0"
+                            Height="50"
+                            Width="300">
+                    </TextBox>
+
+                    <TextBox Style="{DynamicResource TextBoxStyle1}"
+                            x:Name="EmailTextBox"
+                            Margin="0, 15, 0, 0"
+                            Height="50"
+                            Width="300">
+                    </TextBox>
+
+                    <PasswordBox
+                            x:Name="PasswordTextBox"
+                            Margin="0, 15, 0, 0"
+                            Height="50"
+                            Width="300">
+                    </PasswordBox>
+
+                    <PasswordBox
+                            x:Name="ConfirmPasswordTextBox"
+                            Margin="0, 15, 0, 0"
+                            Height="50"
+                            Width="300">
+                    </PasswordBox>
+
+
+
+                    <Button
+                            Style="{DynamicResource featureButtonStyle}"
+                            Margin="0, 15, 0, 0"            
+                            Height="70"
+                            Width="200"
+                            Content="Sing up"
+                            FontSize="22" 
+                            
+                            Foreground="White">
+                    </Button>                    
+                </StackPanel>
+            </Border>
+
+
+        </Grid>
+    </Border>
+</Window>

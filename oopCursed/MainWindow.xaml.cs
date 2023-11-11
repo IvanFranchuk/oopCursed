@@ -42,9 +42,9 @@ namespace oopCursed
 
             LoadWarehouseName();
             productList = new ProductList();
-            productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
-            productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
-            productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
+            productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2009, 3, 1, 7, 0, 0), "P"));
+            productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
+            productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
 
             ProductDataGrid.ItemsSource = productList.Products;
 
@@ -151,11 +151,11 @@ namespace oopCursed
         {
             // Отримайте значення з елементів введення інформації про продукт
             string productName = ProductNameTextBox.Text;
-            float productPrice = float.Parse(PriceTextBox.Text);
+            int productPrice = int.Parse(PriceTextBox.Text);
             string productType = TypeTextBox.Text;
             int productQuantity = int.Parse(QuantityTextBox.Text);
             DateTime manufactureDate = ManufactureDatePicker.SelectedDate ?? DateTime.Now;
-            int shelfLife = int.Parse(ShelfLifeTextBox.Text);
+            DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
             string charecter = CharacterTextBox.Text;
 
             // Створіть новий об'єкт продукту
@@ -186,7 +186,7 @@ namespace oopCursed
             TypeTextBox.Text = "";
             QuantityTextBox.Text = "";
             ManufactureDatePicker.SelectedDate = DateTime.Now;
-            ShelfLifeTextBox.Text = "";
+            ShelfLifeDatePicker.SelectedDate = DateTime.Now;
             CharacterTextBox.Text = "";
 
             // Немає потреби в окремому методі для оновлення вмісту таблиці, оскільки ObservableColletion вже було змінено і DataGrid автоматично відобразить зміни.

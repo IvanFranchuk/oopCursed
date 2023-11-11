@@ -7,20 +7,27 @@ namespace oopCursed.DB;
 public partial class Product
 {
     public int Id { get; set; }
+
     public string? Name { get; set; }
-    public float? Price { get; set; }
+
+    public int? Price { get; set; }
+
     public string? Type { get; set; }
+
     public int? Quantity { get; set; }
-    public string? Character { get; set; }
-    //public System.Windows.Media.Brush MarkColor { get; set; }
 
     public DateTime? ManufactureDate { get; set; }
-    public int? ShelfLife { get; set; }
-    public int? WarehouseId { get; set; } 
+
+    public DateTime? ShelfLife { get; set; }
+
+    public int? WarehouseId { get; set; }
+
+    public string? Character { get; set; }
+
     public virtual Warehouse? Warehouse { get; set; }
 
     public Product() { }
-   public Product(int id, string name, float pricePerUnit, DateTime manufactureDate, string type,  int quantity,  int shelfLife, String character)
+   public Product(int id, string name, int pricePerUnit, DateTime manufactureDate, string type,  int quantity, DateTime? shelfLife, String character)
     {
         Id = id;
         Name = name;
@@ -46,6 +53,6 @@ public partial class Product
 
     public override string ToString()
     {
-        return $"{Name}, Type: {Type}, Quantity: {Quantity}, Manufacture Date: {ManufactureDate.ToString()}, Shelf Life: {ShelfLife} days, Price per Unit: ${Price}";
+        return $"{Name}, Type: {Type}, Quantity: {Quantity}, Manufacture Date: {ManufactureDate.ToString()}, Shelf Life: {ShelfLife.ToString()} days, Price per Unit: ${Price}";
     }
 }

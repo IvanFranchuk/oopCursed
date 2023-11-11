@@ -29,10 +29,14 @@ public partial class ProductManagerContext : DbContext
     {
         modelBuilder.Entity<Product>(entity =>
         {
+            entity.HasKey(e => e.Id).HasName("PK_Product_1");
+
             entity.ToTable("Product");
 
+            entity.Property(e => e.Character).HasMaxLength(50);
             entity.Property(e => e.ManufactureDate).HasColumnType("date");
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.ShelfLife).HasColumnType("date");
             entity.Property(e => e.Type).HasMaxLength(50);
 
             entity.HasOne(d => d.Warehouse).WithMany(p => p.Products)

@@ -708,8 +708,8 @@
                         <TextBox x:Name="QuantityTextBox" Margin="10" Grid.Row="9"/>
 
                         <!-- ShelfLife -->
-                        <TextBlock Text="Shelf Life:" Margin="10" Grid.Row="10"/>
-                        <TextBox x:Name="ShelfLifeTextBox" Margin="10" Grid.Row="11"/>
+                        <TextBlock Text="Manufacture Date:" Margin="10" Grid.Row="4"/>
+                        <DatePicker x:Name="ShelfLifeDatePicker" Margin="10" Grid.Row="5"/>
 
                         <!-- Character -->
                         <TextBlock Text="Character:" Margin="10" Grid.Row="12"/>

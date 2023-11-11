@@ -16,7 +16,7 @@ namespace oopCursed.DB
         {
             Products = new ObservableCollection<Product>(); // Initialize the product collection
             dbContext = new ProductManagerContext(); // Initialize the database context
-            LoadProductsFromDatabase(); // Load products from the database
+            LoadProductsFromDatabase();
         }
 
         // Add a new product to the collection
@@ -37,35 +37,13 @@ namespace oopCursed.DB
         // Load products from the database based on the current warehouse ID
         public void LoadProductsFromDatabase()
         {
-            Products.Clear();
-
-            int warehouseId = UserSession.WarehouseId; // Get the current warehouse ID from UserSession
-
-            if (warehouseId != 0)
+            // Fetch products from the database and add them to the ObservableCollection
+            var productsFromDatabase = dbContext.Products.ToList();
+            Products.Clear(); // Clear existing products
+            foreach (var product in productsFromDatabase)
             {
-                var warehouseProducts = dbContext.Products.Where(p => p.WarehouseId == warehouseId).ToList();
-
-                foreach (var product in warehouseProducts)
-                {
-                    Products.Add(product);
-                }
+                Products.Add(product);
             }
-        }
-
-        // Display the product type with the minimum average shelf life
-        public string DisplayProductTypeWithMinAverageShelfLife()
-        {
-            var minAverageShelfLife = Products
-                .GroupBy(p => p.Type)
-                .Select(g => new
-                {
-                    Type = g.Key,
-                    AverageShelfLife = g.Average(p => p.ShelfLife)
-                })
-                .OrderBy(a => a.AverageShelfLife)
-                .FirstOrDefault();
-
-            return minAverageShelfLife?.Type;
         }
 
         // Get products expiring in a specific month

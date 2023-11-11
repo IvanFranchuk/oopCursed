@@ -15,12 +15,12 @@ namespace oopCursed.code1
         public string Type { get; set; }
         public int Quantity { get; set; }
         public DateTime ManufactureDate { get; set; }
-        public int ShelfLife { get; set; }
+        public DateTime ShelfLife { get; set; }
 
 
         public Product() { }
 
-        public Product(string name, string type, decimal pricePerUnit, int quantity, DateTime manufactureDate, int shelfLife)
+        public Product(string name, string type, decimal pricePerUnit, int quantity, DateTime manufactureDate, DateTime shelfLife)
         {
             Name = name;
             Type = type;
@@ -42,7 +42,7 @@ namespace oopCursed.code1
 
         public override string ToString()
         {
-            return $"{Name}, Type: {Type}, Quantity: {Quantity}, Manufacture Date: {ManufactureDate.ToShortDateString()}, Shelf Life: {ShelfLife} days, Price per Unit: ${PricePerUnit}";
+            return $"{Name}, Type: {Type}, Quantity: {Quantity}, Manufacture Date: {ManufactureDate.ToShortDateString()}, Shelf Life: {ShelfLife.ToShortDateString()} days, Price per Unit: ${PricePerUnit}";
         }
 
   

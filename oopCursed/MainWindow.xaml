@@ -395,7 +395,7 @@
                            Margin="0,10,15,0"/>
 
                 <Button Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="func1"
+                        Content="Price in range"
                         x:Name="selectionSortButton"
                         Height="60"
                         Width="250"
@@ -405,10 +405,10 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="SelectionSortButton_Click"
+                        Click="ShowProductsPriceInRangeButton_Click"
                         Margin="50,20,0,0" />
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="func2"
+                        Content="Show mounth"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -417,10 +417,10 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="ShellSortButton_Click"
+                        Click="ShowProductsByExpiryMonthButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="func3"
+                        Content="Group by price"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -429,10 +429,10 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="QuickSortButton_Click"
+                        Click="GroupProductsByPriceButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="func4"
+                        Content="GroupDateAndType"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -441,7 +441,7 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="MergeSortButton_Click"
+                        Click="GroupProductsByManufactureDateAndTypeButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
                         Content="func5"
@@ -593,7 +593,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                                 <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="#52349c">
-                                                    <TextBlock Text="{Binding Charecter}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+                                                    <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
                                             </Border>
                                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                         </StackPanel>
@@ -602,7 +602,7 @@
                                 
                             </DataGridTemplateColumn>
                             
-                            <DataGridTextColumn Header="Price" IsReadOnly="True" Width="*" Binding="{Binding Prise}"/>
+                                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="*" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Type" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
                                 <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="*" Binding="{Binding Quantity}"/>
                                 <DataGridTextColumn Header="Manafacture" IsReadOnly="True" Width="*" Binding="{Binding ManufactureDate}"/>
@@ -642,16 +642,30 @@
                            
                     </StackPanel>
                 </Border>
-                <Button
+                <StackPanel Orientation="Horizontal">
+                    <Button
                     Style="{DynamicResource featureButtonStyle}"
                     Height="50"
                     Width="100"
                     HorizontalAlignment="Right"
                     Content=" + Add"
-                    Margin="0 0 25 0"
+                    Margin="820 0 25 0"
                     Foreground="White"
                     Click="AddButton_Click">
-                </Button>
+                    </Button>
+
+                    <Button
+                    Style="{DynamicResource featureButtonStyle}"
+                    Height="50"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Content="Upload"
+                    Margin="0 0 25 0"
+                    Foreground="White">
+
+                    </Button>
+                </StackPanel>
+
 
                 <Popup x:Name="AddProductPopup" Placement="Center">
                         <Grid Background="White" Width="300" Height="800">

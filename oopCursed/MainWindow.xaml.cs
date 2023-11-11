@@ -21,6 +21,8 @@ using System.Text;
 using System.Windows;
 using oopCursed.DB;
 using System.Collections.ObjectModel;
+using oopCursed.code1;
+using DynamicData;
 
 namespace oopCursed
 {
@@ -29,6 +31,9 @@ namespace oopCursed
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ProductList productList;
+        public Dictionary<DateTime, Dictionary<string, List<DB.Product>>> GroupedProducts { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,21 +41,54 @@ namespace oopCursed
             Surname.Text = UserSession.UserSurname;
 
             LoadWarehouseName();
+            productList = new ProductList();
+            productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
+            productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
+            productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
+
+            ProductDataGrid.ItemsSource = productList.Products;
+
+
+
 
             var converter = new BrushConverter();
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
-            products.Add(new Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, 2312, "P"));
-            products.Add(new Product(products[0]));
-            products.Add(new Product {Id = 4, Name = "4142fbebe", Price = 10, ManufactureDate = new DateTime(2008, 3, 1, 7, 0, 0), Type = "bebebww", Quantity = 100, ShelfLife = 120,/* MarkColor = (Brush)converter.ConvertFromString("#a4fffff"),*/ Character = "P" });
-            
-            ProductDataGrid.ItemsSource = products;
-            LoadProductsFromDatabase();
+        }
+
+        //public ObservableCollection<DB.Product> products = new ObservableCollection<DB.Product>();
+       //private List<DB.Product> ProductList = new List<DB.Product>();
+
+
+        private void ShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            float minPrice = 0.0f; // Replace with the actual minimum price
+            float maxPrice = 11.0f; // Replace with the actual maximum price
+            var productsInPriceRange = productList.GetProductsInPriceRange(minPrice, maxPrice);
+
+            // Update the DataGrid with the filtered products
+            ProductDataGrid.ItemsSource = productsInPriceRange;
+        }
+        private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e) {
+            int selectedMonth = 11; // You can replace this with the actual selected month
+            var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
+
+            // Update the DataGrid with the filtered products
+            ProductDataGrid.ItemsSource = expiringProducts;
+        }       
+        private void GroupProductsByPriceButton_Click(object sender, RoutedEventArgs e) {
+            var sortedProducts = productList.GroupProductsByPrice();
+            ProductDataGrid.ItemsSource = sortedProducts;
         }
 
 
-        private List<Product> ProductList = new List<Product>();
-        private void SelectionSortButton_Click(object sender, RoutedEventArgs e) { }
-        private void ShellSortButton_Click(object sender, RoutedEventArgs e) { }
+        private void GroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            GroupedProducts = productList.GroupProductsByManufactureDateAndType();
+            ProductDataGrid.ItemsSource = null; // Clear the existing data
+            ProductDataGrid.ItemsSource = GroupedProducts.SelectMany(dateGroup => dateGroup.Value.Select(typeGroup => new { ManufactureDate = dateGroup.Key, Type = typeGroup.Key, Products = typeGroup.Value }));
+        }
+
+
+
         private void QuickSortButton_Click(object sender, RoutedEventArgs e) { }
         private void MergeSortButton_Click(object sender, RoutedEventArgs e) { }
         private void CountSortButton_Click(object sender, RoutedEventArgs e) { }
@@ -108,8 +146,7 @@ namespace oopCursed
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = true;
-        }
-
+        }        
         private void AddProductConfirm_Click(object sender, RoutedEventArgs e)
         {
             // Отримайте значення з елементів введення інформації про продукт
@@ -122,7 +159,7 @@ namespace oopCursed
             string charecter = CharacterTextBox.Text;
 
             // Створіть новий об'єкт продукту
-            Product newProduct = new Product
+            DB.Product newProduct = new DB.Product
             {
                 Name = productName,
                 Price = productPrice,
@@ -135,10 +172,10 @@ namespace oopCursed
             };
 
             // Отримайте джерело даних (ObservableCollection) для DataGrid
-            var products = (ObservableCollection<Product>)ProductDataGrid.ItemsSource;
+            var productList = (ObservableCollection<DB.Product>)ProductDataGrid.ItemsSource;
 
             // Додайте новий продукт до списку
-            products.Add(newProduct);
+            productList.Add(newProduct);
 
             // Закрийте викидне вікно
             AddProductPopup.IsOpen = false;
@@ -154,42 +191,6 @@ namespace oopCursed
 
             // Немає потреби в окремому методі для оновлення вмісту таблиці, оскільки ObservableColletion вже було змінено і DataGrid автоматично відобразить зміни.
         }
-
-
-
-        private void LoadProductsFromDatabase()
-        {
-            using (var context = new ProductManagerContext())
-            {
-                int warehouseId = UserSession.WarehouseId; // Get the current warehouse ID from UserSession
-
-                if (warehouseId != 0)
-                {
-                    // Retrieve products that belong to the current warehouse
-                    var warehouseProducts = context.Products.Where(p => p.WarehouseId == warehouseId).ToList();
-
-                    // Initialize the products collection if it's null
-                    var products = (ObservableCollection<Product>)ProductDataGrid.ItemsSource;
-                    if (products == null)
-                    {
-                        products = new ObservableCollection<Product>();
-                        ProductDataGrid.ItemsSource = products;
-                    }
-
-                    // Clear the existing products list (if needed)
-                    products.Clear();
-
-                    // Add the retrieved products to the list
-                    foreach (var product in warehouseProducts)
-                    {
-                        products.Add(product);
-                    }
-                }
-            }
-        }
-
-
-
 
 
     }

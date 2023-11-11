@@ -7,8 +7,8 @@ namespace oopCursed.DB
 {
     public class ProductList
     {
-        // Collection to store products
-        public ObservableCollection<Product> Products { get; set; }
+       
+        public ObservableCollection<Product> Products { get; set; }  // Collection to store products
         private ProductManagerContext dbContext; // Database context
 
         // Constructor
@@ -19,33 +19,56 @@ namespace oopCursed.DB
             LoadProductsFromDatabase();
         }
 
-        // Add a new product to the collection
+        // Add a new product to the collection and database
         public void AddProduct(Product newProduct)
         {
-            newProduct.Id = 0; // Assign Id of 0 to the newly added product
-            Products.Add(newProduct);
+            try
+            {
+                newProduct.Id = 0; // Assign Id of 0 to the newly added product
+                newProduct.WarehouseId = UserSession.WarehouseId;
+                Products.Add(newProduct);
+                dbContext.Products.Add(newProduct); // Add the new product to the database
+                dbContext.SaveChanges(); // Save changes to the database
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it, show an error message)
+                Console.WriteLine($"Error adding product: {ex.Message}");
+            }
         }
-
-        // Remove a product from the collection and database
         public void RemoveProduct(Product productToRemove)
         {
-            Products.Remove(productToRemove);
-            dbContext.Products.Remove(productToRemove);
-            dbContext.SaveChanges(); // Save changes to the database
-        }
-
-        // Load products from the database based on the current warehouse ID
-        public void LoadProductsFromDatabase()
-        {
-            // Fetch products from the database and add them to the ObservableCollection
-            var productsFromDatabase = dbContext.Products.ToList();
-            Products.Clear(); // Clear existing products
-            foreach (var product in productsFromDatabase)
+            try
             {
-                Products.Add(product);
+                Products.Remove(productToRemove); // Remove from the collection
+                dbContext.Products.Remove(productToRemove); // Remove from the database
+                dbContext.SaveChanges(); // Save changes to the database
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it, show an error message)
+                Console.WriteLine($"Error removing product: {ex.Message}");
             }
         }
 
+
+        // Load products from the database based on the current user's ID
+        public void LoadProductsFromDatabase()
+        {
+            if (UserSession.UserId != 0)
+            {
+                // Fetch products from the database for the current user and add them to the ObservableCollection
+                var productsFromDatabase = dbContext.Products
+                                                    .Where(p => p.Warehouse.Userid == UserSession.UserId)
+                                                    .ToList();
+
+                Products.Clear(); // Clear existing products
+                foreach (var product in productsFromDatabase)
+                {
+                    Products.Add(product);
+                }
+            }
+        }
         // Get products expiring in a specific month
         public ObservableCollection<Product> GetProductsExpiringInMonth(int selectedMonth)
         {

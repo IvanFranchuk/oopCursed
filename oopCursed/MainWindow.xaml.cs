@@ -42,9 +42,9 @@ namespace oopCursed
 
             LoadWarehouseName();
             productList = new ProductList();
-            productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2009, 3, 1, 7, 0, 0), "P"));
-            productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
-            productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
+           // productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2009, 3, 1, 7, 0, 0), "P"));
+            //productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
+            //productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
 
             ProductDataGrid.ItemsSource = productList.Products;
 
@@ -158,24 +158,8 @@ namespace oopCursed
             DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
             string charecter = CharacterTextBox.Text;
 
-            // Створіть новий об'єкт продукту
-            DB.Product newProduct = new DB.Product
-            {
-                Name = productName,
-                Price = productPrice,
-                Type = productType,
-                Quantity = productQuantity,
-                ManufactureDate = manufactureDate,
-                ShelfLife = shelfLife,
-                Character = charecter
-                // Встановіть інші властивості продукту
-            };
+            productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife, charecter));
 
-            // Отримайте джерело даних (ObservableCollection) для DataGrid
-            var productList = (ObservableCollection<DB.Product>)ProductDataGrid.ItemsSource;
-
-            // Додайте новий продукт до списку
-            productList.Add(newProduct);
 
             // Закрийте викидне вікно
             AddProductPopup.IsOpen = false;
@@ -188,10 +172,31 @@ namespace oopCursed
             ManufactureDatePicker.SelectedDate = DateTime.Now;
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
             CharacterTextBox.Text = "";
-
             // Немає потреби в окремому методі для оновлення вмісту таблиці, оскільки ObservableColletion вже було змінено і DataGrid автоматично відобразить зміни.
         }
 
+        private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Check if any item is selected in the DataGrid
+                if (ProductDataGrid.SelectedItem != null && ProductDataGrid.SelectedItem is DB.Product selectedProduct)
+                {
+                    // Call the RemoveProduct method to remove the selected product
+                    productList.RemoveProduct(selectedProduct);
+                }
+                else
+                {
+                    // Provide feedback to the user that no item is selected
+                    MessageBox.Show("Please select a product to delete.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it, show an error message)
+                Console.WriteLine($"Error deleting product: {ex.Message}");
+            }
+        }
 
     }
 }

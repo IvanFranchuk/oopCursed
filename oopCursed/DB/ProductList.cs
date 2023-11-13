@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.IO;
+
 
 namespace oopCursed.DB
 {
@@ -51,6 +53,60 @@ namespace oopCursed.DB
             }
         }
 
+        public void ReadProductsFromFile(string filePath)
+        {
+            try
+            {
+                // Read all lines from the file
+                string[] lines = File.ReadAllLines(filePath);
+
+                foreach (string line in lines)
+                {
+                    // Split the line into individual values
+                    string[] values = line.Split(',');
+
+                    // Check if the line contains the expected number of values
+                    if (values.Length == 7)
+                    {
+                        // Parse values and create a new Product
+                        string productName = values[0].Trim();
+                        int productPrice = int.Parse(values[1].Trim());
+                        DateTime manufactureDate = DateTime.Parse(values[2].Trim());
+                        string productType = values[3].Trim();
+                        int productQuantity = int.Parse(values[4].Trim());
+                        DateTime shelfLife = DateTime.Parse(values[5].Trim());
+                        string character = values[6].Trim();
+
+                        // Create a new Product
+                        Product newProduct = new Product
+                        {
+                            Name = productName,
+                            Price = productPrice,
+                            ManufactureDate = manufactureDate,
+                            Type = productType,
+                            Quantity = productQuantity,
+                            ShelfLife = shelfLife,
+                            Character = character
+                        };
+
+                        // Add the new product to the collection
+                        AddProduct(newProduct);
+                    }
+                    else
+                    {
+                        // Log a warning or handle invalid lines as needed
+                        Console.WriteLine($"Invalid line: {line}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., log, display an error message)
+                Console.WriteLine($"Error reading products from file: {ex.Message}");
+            }
+        }
+
+
 
         // Load products from the database based on the current user's ID
         public void LoadProductsFromDatabase()
@@ -74,7 +130,7 @@ namespace oopCursed.DB
         {
             // Return the filtered collection based on the selected month
             return new ObservableCollection<Product>(Products
-                .Where(p => p.ManufactureDate.HasValue && p.ManufactureDate.Value.Month == selectedMonth));
+                .Where(p => p.ShelfLife.HasValue && p.ShelfLife.Value.Month == selectedMonth));
         }
 
         // Get products within a specified price range
@@ -84,6 +140,82 @@ namespace oopCursed.DB
             return new ObservableCollection<Product>(Products
                 .Where(p => p.Price >= minPrice && p.Price <= maxPrice));
         }
+
+        public string GetTypeWithShortestAverageStorageTerm()
+        {
+            var typeWithShortestAverageStorageTerm = Products
+                .GroupBy(p => p.Type)
+                .Select(group => new
+                {
+                    Type = group.Key,
+                    AverageStorageTerm = group.Average(p => ((p.ShelfLife - p.ManufactureDate)?.Days) ?? 0)
+                })
+                .OrderBy(item => item.AverageStorageTerm)
+                .FirstOrDefault()?.Type;
+
+            return typeWithShortestAverageStorageTerm;
+        }
+
+
+        public List<KeyValuePair<string, decimal?>> GetTotalCostByTypeSorted()
+        {
+            var totalCostByType = Products
+                .GroupBy(p => p.Type)
+                .ToDictionary(g => g.Key, g => (decimal?)g.Sum(p => p.Price * p.Quantity));
+
+            var sortedTotalCostByType = QuickSort(totalCostByType.ToList());
+
+            return sortedTotalCostByType;
+        }
+
+        private List<KeyValuePair<string, decimal?>> QuickSort(List<KeyValuePair<string, decimal?>> list)
+        {
+            if (list.Count <= 1)
+                return list;
+
+            int pivotIndex = list.Count / 2;
+            var pivot = list[pivotIndex];
+            list.RemoveAt(pivotIndex);
+
+            var lesser = new List<KeyValuePair<string, decimal?>>();
+            var greater = new List<KeyValuePair<string, decimal?>>();
+
+            foreach (var element in list)
+            {
+                if (element.Value <= pivot.Value)
+                    lesser.Add(element);
+                else
+                    greater.Add(element);
+            }
+
+            var sortedList = new List<KeyValuePair<string, decimal?>>();
+            sortedList.AddRange(QuickSort(lesser));
+            sortedList.Add(pivot);
+            sortedList.AddRange(QuickSort(greater));
+
+            return sortedList;
+        }
+
+        public Dictionary<string, Dictionary<DateTime, List<Product>>> GetProductsByManufactureDateAndType()
+        {
+            var productsByManufactureDateAndType = Products
+                .GroupBy(p => new { p.Type, p.ManufactureDate })
+                .ToDictionary(
+                    group => group.Key.Type,
+                    group => group.GroupBy(p => p.ManufactureDate)
+                                  .ToDictionary(innerGroup => innerGroup.Key ?? DateTime.MinValue, innerGroup => innerGroup.ToList())
+                );
+
+            return productsByManufactureDateAndType;
+        }
+
+
+
+
+
+
+
+
 
         // Group products by manufacture date and type
         public Dictionary<DateTime, Dictionary<string, List<Product>>> GroupProductsByManufactureDateAndType()
@@ -133,6 +265,8 @@ namespace oopCursed.DB
 
             return groupedProducts;
         }
+
+       
 
     }
 }

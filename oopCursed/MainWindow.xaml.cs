@@ -23,6 +23,7 @@ using oopCursed.DB;
 using System.Collections.ObjectModel;
 using oopCursed.code1;
 using DynamicData;
+using Microsoft.Win32;
 
 namespace oopCursed
 {
@@ -67,13 +68,7 @@ namespace oopCursed
             // Update the DataGrid with the filtered products
             ProductDataGrid.ItemsSource = productsInPriceRange;
         }
-        private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e) {
-            int selectedMonth = 11; // You can replace this with the actual selected month
-            var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
-
-            // Update the DataGrid with the filtered products
-            ProductDataGrid.ItemsSource = expiringProducts;
-        }       
+              
         private void GroupProductsByPriceButton_Click(object sender, RoutedEventArgs e) {
             var sortedProducts = productList.GroupProductsByPrice();
             ProductDataGrid.ItemsSource = sortedProducts;
@@ -142,11 +137,38 @@ namespace oopCursed
         }
 
         
+        private void SelectMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectMounthPopup.IsOpen = true;
+        }
+        private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedMonth = int.Parse(MounthTextBox.Text); // You can replace this with the actual selected month
+            var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
+
+            // Update the DataGrid with the filtered products
+            ProductDataGrid.ItemsSource = expiringProducts;
+            SelectMounthPopup.IsOpen = false;
+            MounthTextBox.Text = "";
+        }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = true;
-        }        
+        }
+
+        private void AddProductCancel_Click(object sender, RoutedEventArgs e)
+        {
+            AddProductPopup.IsOpen = false;
+            // Скиньте значення елементів введення
+            ProductNameTextBox.Text = "";
+            PriceTextBox.Text = "";
+            TypeTextBox.Text = "";
+            QuantityTextBox.Text = "";
+            ManufactureDatePicker.SelectedDate = DateTime.Now;
+            ShelfLifeDatePicker.SelectedDate = DateTime.Now;
+            CharacterTextBox.Text = "";
+        }
         private void AddProductConfirm_Click(object sender, RoutedEventArgs e)
         {
             // Отримайте значення з елементів введення інформації про продукт
@@ -196,6 +218,31 @@ namespace oopCursed
                 // Handle the exception (e.g., log it, show an error message)
                 Console.WriteLine($"Error deleting product: {ex.Message}");
             }
+        }
+
+        private void AddFromFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                // Отримати шлях до вибраного файлу
+                string filePath = openFileDialog.FileName;
+                productList.ReadProductsFromFile(filePath);
+
+                // Тепер ви можете використовувати filePath для читання файлу чи інших операцій
+                Console.WriteLine($"Вибраний файл: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }
+
+            
+
+            // Call the ReadProductsFromFile function
+           
         }
 
     }

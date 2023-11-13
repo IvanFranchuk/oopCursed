@@ -50,7 +50,8 @@
                             x:Name="PasswordTextBox"
                             Margin="0, 15, 0, 0"
                             Height="50"
-                            Width="300">
+                            Width="300"
+                            >
                     </PasswordBox>
 
                     <PasswordBox
@@ -67,11 +68,27 @@
                             Margin="0, 15, 0, 0"            
                             Height="70"
                             Width="200"
-                            Content="Sing up"
+                            Content="Next"
                             FontSize="22" 
-                            
+                            Click="CreateWarehouse_ButtonClick"
                             Foreground="White">
-                    </Button>                    
+                    </Button>
+                   
+                    <Popup x:Name="WarehouseInfoPopup" Placement="Center">
+                        <Grid Background="White" Width="300" Height="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="WareHouse name:" Margin="10"/>
+                            <TextBox x:Name="WarehouseNameTextBox" Margin="10" Grid.Row="1"/>
+                            <Button Content="Create" Click="CreateAccountButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                        </Grid>
+                    </Popup>
+                    
                 </StackPanel>
             </Border>
 

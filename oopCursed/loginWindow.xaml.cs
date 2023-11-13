@@ -58,6 +58,14 @@ namespace oopCursed
             }
         }
 
+        private void OpenSingUpWindow_Click(object sender, RoutedEventArgs e)
+        {
+            SingUpWindow objSingUpWindow = new SingUpWindow();
+            this.Visibility = Visibility.Hidden;
+            objSingUpWindow.Show();
+            Close();
+        }
+
 
         private void DarkThemetb_Checked(object sender, RoutedEventArgs e)
         {

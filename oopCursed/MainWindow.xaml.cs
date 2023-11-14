@@ -43,71 +43,34 @@ namespace oopCursed
 
             LoadWarehouseName();
             productList = new ProductList();
-           // productList.AddProduct(new DB.Product(1, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2009, 3, 1, 7, 0, 0), "P"));
-            //productList.AddProduct(new DB.Product(2, "bsefsfes", 231, new DateTime(2008, 3, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
-            //productList.AddProduct(new DB.Product(3, "bsefsfes", 231, new DateTime(2008, 5, 1, 7, 0, 0), "bebeb", 234, new DateTime(2013, 3, 1, 7, 0, 0), "P"));
 
             ProductDataGrid.ItemsSource = productList.Products;
-
-
-
-
             var converter = new BrushConverter();
-        }
-
-        //public ObservableCollection<DB.Product> products = new ObservableCollection<DB.Product>();
-       //private List<DB.Product> ProductList = new List<DB.Product>();
-
-
-        private void ShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
-        {
-            float minPrice = 0.0f; // Replace with the actual minimum price
-            float maxPrice = 11.0f; // Replace with the actual maximum price
-            var productsInPriceRange = productList.GetProductsInPriceRange(minPrice, maxPrice);
-
-            // Update the DataGrid with the filtered products
-            ProductDataGrid.ItemsSource = productsInPriceRange;
-        }
-              
-        private void GroupProductsByPriceButton_Click(object sender, RoutedEventArgs e) {
-            var sortedProducts = productList.GroupProductsByPrice();
-            ProductDataGrid.ItemsSource = sortedProducts;
-        }
-
-
-        private void GroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
-        {
-            GroupedProducts = productList.GroupProductsByManufactureDateAndType();
-            ProductDataGrid.ItemsSource = null; // Clear the existing data
-            ProductDataGrid.ItemsSource = GroupedProducts.SelectMany(dateGroup => dateGroup.Value.Select(typeGroup => new { ManufactureDate = dateGroup.Key, Type = typeGroup.Key, Products = typeGroup.Value }));
-        }
-
-
+        }          
 
         private void QuickSortButton_Click(object sender, RoutedEventArgs e) { }
         private void MergeSortButton_Click(object sender, RoutedEventArgs e) { }
         private void CountSortButton_Click(object sender, RoutedEventArgs e) { }
 
+        //theme choose
         private void DarkThemetb_Checked(object sender, RoutedEventArgs e)
         {
             AppTheme.ChangeTheme(new Uri("Themes/Dark.xaml", UriKind.Relative));
         }
-
         private void LightThemetb_Checked(object sender, RoutedEventArgs e)
         {
             AppTheme.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
         }
 
+        //window control
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
-
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
@@ -116,12 +79,12 @@ namespace oopCursed
             }
         }
 
+        //get users warehouse
         private void LoadWarehouseName()
         {
-            // Отримайте ім'я складу користувача з бази даних, здійсніть відповідний запит до БД
             using (var context = new ProductManagerContext())
             {
-                int userId = UserSession.UserId; // Отримайте ідентифікатор користувача
+                int userId = UserSession.UserId;
 
                 if (userId != 0)
                 {
@@ -136,22 +99,102 @@ namespace oopCursed
             }
         }
 
-        
+        //|=============================================| TASK |=============================================|
+
+        // 1) |=================| SHOW PODUCTS IN SELECTED MOUNTH |=================|
         private void SelectMonthButton_Click(object sender, RoutedEventArgs e)
         {
             SelectMounthPopup.IsOpen = true;
         }
         private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e)
         {
-            int selectedMonth = int.Parse(MounthTextBox.Text); // You can replace this with the actual selected month
+            int selectedMonth = int.Parse(MounthTextBox.Text);
             var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
-
-            // Update the DataGrid with the filtered products
+            
             ProductDataGrid.ItemsSource = expiringProducts;
             SelectMounthPopup.IsOpen = false;
             MounthTextBox.Text = "";
         }
 
+        // 2) |=================| SHOW PODUCTS IN PRICE RANGE |=================|
+
+        private void SelectPriceRangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectPriceRangePopup.IsOpen = true;
+        }
+        private void ShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            int minPrice = int.Parse(MinPriceTextBox.Text); // Replace with the actual minimum price
+            int maxPrice = int.Parse(MaxPriceTextBox.Text); // Replace with the actual maximum price
+            var productsInPriceRange = productList.GetProductsInPriceRange(minPrice, maxPrice);
+            SelectPriceRangePopup.IsOpen = false;
+
+            // Update the DataGrid with the filtered products
+            ProductDataGrid.ItemsSource = productsInPriceRange;
+        }
+
+        // 3) |=================| SHORTEST STORAGE TIME |=================|
+        private void OpenShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            string ShortestAvarageStorageTerm = productList.GetTypeWithShortestAverageStorageTerm();
+            ShortestAverageStorageTermPopup.IsOpen = true;
+
+            ShortestAverageStorageTermTextBlock.Text = ShortestAvarageStorageTerm;
+        }
+
+        private void CloseShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShortestAverageStorageTermPopup.IsOpen = false;
+        }
+
+        // 4) |=================| ALL TYPES SUM + SORTING |=================|
+        private void ShowTypesWithPricePopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            TypeWithPricePopup.IsOpen = true;
+            List<KeyValuePair<string, decimal?>> TypeList = productList.GetTotalCostByTypeSorted();
+            StringBuilder TypeListSB = new StringBuilder();
+            foreach (var item in TypeList)
+            {
+                TypeListSB.AppendLine($"Type: {item.Key}, Total Cost: {item.Value}");
+            }
+            TypeListTextBox.Text = TypeListSB.ToString();
+        }
+        private void CloseTypeWithPricePopupButton_Click(object sender, RoutedEventArgs e)
+        {
+            TypeWithPricePopup.IsOpen = false;
+        }
+
+        //5) |=================| SAME MANAFACTURE DATE + SAPARATED BY TYPES  |=================|
+        private void GroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            GroupedProducts = productList.GroupProductsByManufactureDateAndType();
+            ProductDataGrid.ItemsSource = null; // Clear the existing data
+            ProductDataGrid.ItemsSource = GroupedProducts.SelectMany(dateGroup => dateGroup.Value.Select(typeGroup => new { ManufactureDate = dateGroup.Key, Type = typeGroup.Key, Products = typeGroup.Value}));
+        }
+
+        //6) |=================| GROUP BY PRICE |=================|
+        private void GroupProductsByPriceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var sortedProducts = productList.GroupProductsByPrice();
+            ProductDataGrid.ItemsSource = sortedProducts;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //|=============================================| EDIT CONTENT IN LIST |=============================================|
+        // |=================| ADD NEW PRODUCT |=================|
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = true;
@@ -160,43 +203,44 @@ namespace oopCursed
         private void AddProductCancel_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = false;
-            // Скиньте значення елементів введення
+            // Скинути значення елементів введення
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
-            TypeTextBox.Text = "";
             QuantityTextBox.Text = "";
+            CharacterTextBox.Text = "";
             ManufactureDatePicker.SelectedDate = DateTime.Now;
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
-            CharacterTextBox.Text = "";
+            TypeComboBox.SelectedIndex = -1;
         }
+
         private void AddProductConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // Отримайте значення з елементів введення інформації про продукт
+            // Отримати значення з елементів введення інформації про продукт
             string productName = ProductNameTextBox.Text;
             int productPrice = int.Parse(PriceTextBox.Text);
-            string productType = TypeTextBox.Text;
+            string productType = (TypeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
             int productQuantity = int.Parse(QuantityTextBox.Text);
             DateTime manufactureDate = ManufactureDatePicker.SelectedDate ?? DateTime.Now;
             DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
-            string charecter = CharacterTextBox.Text;
+            string character = CharacterTextBox.Text;
 
-            productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife, charecter));
+            // Додати продукт до списку
+            productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife, character));
 
-
-            // Закрийте викидне вікно
+            // Закрити викидне вікно
             AddProductPopup.IsOpen = false;
 
-            // Скиньте значення елементів введення
+            // Скинути значення елементів введення
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
-            TypeTextBox.Text = "";
             QuantityTextBox.Text = "";
+            CharacterTextBox.Text = "";
             ManufactureDatePicker.SelectedDate = DateTime.Now;
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
-            CharacterTextBox.Text = "";
-            // Немає потреби в окремому методі для оновлення вмісту таблиці, оскільки ObservableColletion вже було змінено і DataGrid автоматично відобразить зміни.
+            TypeComboBox.SelectedIndex = -1;
         }
 
+        // |=================| DELETE PRODUCT |=================|
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -220,6 +264,7 @@ namespace oopCursed
             }
         }
 
+        // |=================| READ FROM FILE |=================|
         private void AddFromFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

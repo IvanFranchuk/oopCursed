@@ -4,6 +4,16 @@ using System.Drawing;
 
 namespace oopCursed.DB;
 
+public enum ProductType
+{
+    Electronics,
+    Clothing,
+    Food,
+    Books,
+    Cosmetics,
+    // Додайте інші типи товарів за необхідності
+}
+
 public partial class Product
 {
     public int Id { get; set; }

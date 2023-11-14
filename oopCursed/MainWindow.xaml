@@ -237,7 +237,7 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="ShowProductsPriceInRangeButton_Click"
+                        Click="SelectPriceRangeButton_Click"
                         Margin="50,20,0,0" />
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
                         Content="Show mounth"
@@ -276,7 +276,7 @@
                         Click="GroupProductsByManufactureDateAndTypeButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="func5"
+                        Content="Shortest storage time"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -285,8 +285,20 @@
                         FontWeight="Bold"
                         HorizontalContentAlignment="Left"
                         Padding="15"
-                        Click="CountSortButton_Click"
+                        Click="OpenShortestAverageStorageTermPopupButton_Click"
                         Margin="50,0,0,0"/>
+                <Button  Style="{DynamicResource roundedMenuButtonStyle}"
+                         Content="Type - price"
+                         Height="60"
+                         Width="250"
+                         Foreground="{DynamicResource mainTextColor}"
+                         FontSize="22"
+                         FontFamily="Trebuchet MS"
+                         FontWeight="Bold"
+                         HorizontalContentAlignment="Left"
+                         Padding="15"
+                         Click="ShowTypesWithPricePopupButton_Click"
+                         Margin="50,0,0,0"/>
 
                 <ToggleButton Style="{DynamicResource ToggleButtonThemeStyle}" 
                     x:Name="DarkThemetb"
@@ -300,7 +312,7 @@
                         Height="140"                    
                         Background="{DynamicResource bgColor}"                    
                         CornerRadius="40,0,0,0"
-                        Margin="0,137,0,0">
+                        Margin="0,77,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Border
                         Width="120"
@@ -435,17 +447,17 @@
                                 
                             </DataGridTemplateColumn>
                             
-                                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="*" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
-                                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="*" Binding="{Binding Quantity}"/>
+                                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="80" Binding="{Binding Price}"/>
+                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="auto" Binding="{Binding Type}"/>
+                                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="80" Binding="{Binding Quantity}"/>
                                 <!--DataGridTextColumn Header="Manafacture" IsReadOnly="True" Width="*" Binding="{Binding ManufactureDate}"/-->
-                                <DataGridTextColumn Header="Manufacture Date" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn Header="Manufacture Date" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
                                         <Binding Path="ManufactureDate" StringFormat="dd MMMM , yyyy"/>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
                                 <!--DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="*" Binding="{Binding ShelfLife}"/-->
-                                <DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="*">
+                                <DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
                                         <Binding Path="ShelfLife" StringFormat="dd MMMM , yyyy"/>
                                     </DataGridTextColumn.Binding>
@@ -549,13 +561,26 @@
                             <!-- Type -->
                             <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="3">
                                 <TextBlock Text="Type:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black" />
-                                <TextBox x:Name="TypeTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200"/>
+                                <ComboBox x:Name="TypeComboBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200">
+                                    <ComboBoxItem Content="Electronics"/>
+                                    <ComboBoxItem Content="Clothing"/>
+                                    <ComboBoxItem Content="Food"/>
+                                    <ComboBoxItem Content="Books"/>
+                                    <ComboBoxItem Content="Cosmetics"/>
+                                    <ComboBoxItem Content="Furniture"/>
+                                    <ComboBoxItem Content="Toys"/>
+                                    <ComboBoxItem Content="Sporting Goods"/>
+                                    <ComboBoxItem Content="Tools"/>
+                                    <ComboBoxItem Content="Jewelry"/>
+                                    <ComboBoxItem Content="Automotive"/>
+                                    <ComboBoxItem Content="Home and Garden"/>                                   
+                                </ComboBox>
                             </StackPanel>
 
                             <!-- Quantity -->
                             <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="4">
                                 <TextBlock Text="Quantity:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <TextBox x:Name="QuantityTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200"/>
+                                <TextBox x:Name="QuantityTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="200" />
                             </StackPanel>
 
                             <!-- ShelfLife -->
@@ -581,7 +606,7 @@
                 </Popup>
 
                 <Popup x:Name="SelectMounthPopup" Placement="Center">
-                    <Grid Background="White" Width="300" Height="100">
+                    <Grid Background="White" Width="300" Height="150">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -590,6 +615,50 @@
                         <TextBlock Text="Name:" Margin="10"/>
                         <TextBox x:Name="MounthTextBox" Margin="10" Grid.Row="1"/>
                         <Button Style="{DynamicResource featureButtonStyle}" Content="Show" Click="ShowProductsByExpiryMonthButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                    </Grid>
+                </Popup>
+
+
+                <Popup x:Name="SelectPriceRangePopup" Placement="Center">
+                    <Grid Background="White" Width="300" Height="300">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Min:" Margin="10"/>
+                        <TextBox x:Name="MinPriceTextBox" Margin="10" Grid.Row="1"/>
+                        <TextBlock Text="Min:" Margin="10" Grid.Row="2"/>
+                        <TextBox x:Name="MaxPriceTextBox" Margin="10" Grid.Row="3"/>
+                        <Button Style="{DynamicResource featureButtonStyle}" Content="Show" Click="ShowProductsPriceInRangeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="4"/>
+                    </Grid>
+                </Popup>
+
+                <Popup x:Name="ShortestAverageStorageTermPopup" Placement="Center">
+                    <Grid Background="White" Width="300" Height="150">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="ShortestAverageStorageTerm:" Margin="10"/>
+                        <TextBlock x:Name="ShortestAverageStorageTermTextBlock" Text=" " Margin="10" Grid.Row="1"/>
+                        <Button Style="{DynamicResource featureButtonStyle}" Content="Close" Click="CloseShortestAverageStorageTermPopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                    </Grid>
+                </Popup>
+
+                <Popup x:Name="TypeWithPricePopup" Placement="Center">
+                    <Grid Background="White" Width="300" Height="400">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="ShortestAverageStorageTerm:" Margin="10"/>
+                        <TextBox x:Name="TypeListTextBox" Margin="10" Grid.Row="1" Height="300"/>
+                        <Button Style="{DynamicResource featureButtonStyle}" Content="Close" Click="CloseTypeWithPricePopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
                     </Grid>
                 </Popup>
 

@@ -26,16 +26,20 @@
             <guidePages:guide_1 x:Name="guide1" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
 
             <Button
-                Height="40"
+                Style="{DynamicResource featureButtonStyle}"
+                Height="60"
                 Width="120"
-                Margin="400, 600,20 20" Click="NextButton_Click" Content="NEXT">
+                Foreground="{DynamicResource buttonForeground}"
+                
+                Margin="400, 600,20 20" Click="NextButton_Click" Content="NEXT" FontSize="18">
                 
             </Button>
             <Button
-                Height="40"
+                Style="{DynamicResource featureButtonStyle}"
+                Height="60"
                 Width="120"
-                Margin="700, 600,20 20" Click="SkipButton_Click" Content="SKIP">
-
+                Foreground="{DynamicResource buttonForeground}"
+                Margin="700, 600,20 20" Click="SkipButton_Click" Content="SKIP" FontSize="18">
             </Button>
 
         </Grid>

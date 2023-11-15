@@ -104,6 +104,7 @@ namespace oopCursed
         // 1) |=================| SHOW PODUCTS IN SELECTED MOUNTH |=================|
         private void SelectMonthButton_Click(object sender, RoutedEventArgs e)
         {
+            ProductListPanel.Visibility = Visibility.Visible;
             SelectMounthPopup.IsOpen = true;
         }
         private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e)
@@ -120,6 +121,7 @@ namespace oopCursed
 
         private void SelectPriceRangeButton_Click(object sender, RoutedEventArgs e)
         {
+            ProductListPanel.Visibility = Visibility.Visible;
             SelectPriceRangePopup.IsOpen = true;
         }
         private void ShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
@@ -136,6 +138,7 @@ namespace oopCursed
         // 3) |=================| SHORTEST STORAGE TIME |=================|
         private void OpenShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
         {
+            ProductListPanel.Visibility = Visibility.Visible;
             string ShortestAvarageStorageTerm = productList.GetTypeWithShortestAverageStorageTerm();
             ShortestAverageStorageTermPopup.IsOpen = true;
 
@@ -150,6 +153,7 @@ namespace oopCursed
         // 4) |=================| ALL TYPES SUM + SORTING |=================|
         private void ShowTypesWithPricePopupButton_Click(object sender, RoutedEventArgs e)
         {
+            ProductListPanel.Visibility = Visibility.Visible;
             TypeWithPricePopup.IsOpen = true;
             List<KeyValuePair<string, decimal?>> TypeList = productList.GetTotalCostByTypeSorted();
             StringBuilder TypeListSB = new StringBuilder();
@@ -167,17 +171,59 @@ namespace oopCursed
         //5) |=================| SAME MANAFACTURE DATE + SAPARATED BY TYPES  |=================|
         private void GroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
         {
-            GroupedProducts = productList.GroupProductsByManufactureDateAndType();
-            ProductDataGrid.ItemsSource = null; // Clear the existing data
-            ProductDataGrid.ItemsSource = GroupedProducts.SelectMany(dateGroup => dateGroup.Value.Select(typeGroup => new { ManufactureDate = dateGroup.Key, Type = typeGroup.Key, Products = typeGroup.Value}));
+            ProductListPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+
+            var productsByManufactureDateAndType = productList.GetProductsByManufactureDateAndType();
+
+            StringBuilder resultTextBuilder = new StringBuilder();
+            foreach (var kvp in productsByManufactureDateAndType)
+            {
+                resultTextBuilder.AppendLine($"Key: {kvp.Key}"); // Додаємо ключ (тип товару та дата виготовлення)
+                resultTextBuilder.AppendLine("Products:");
+                foreach (var product in kvp.Value)
+                {
+                    resultTextBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}, Manufacture Date: {product.ManufactureDate}");
+                    // Додаємо додаткову інформацію про товар (назва, тип, дата виготовлення)
+                }
+            }
+            // clear
+            GroupByTypeAndDateResultTextBlock.Text = " ";
+            // Відображаємо отриманий текст у блоку тексту
+            GroupByTypeAndDateResultTextBlock.Text = resultTextBuilder.ToString();
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Visible;
         }
+
+
 
         //6) |=================| GROUP BY PRICE |=================|
         private void GroupProductsByPriceButton_Click(object sender, RoutedEventArgs e)
         {
-            var sortedProducts = productList.GroupProductsByPrice();
-            ProductDataGrid.ItemsSource = sortedProducts;
+            ProductListPanel.Visibility = Visibility.Collapsed;
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultTextBlock.Text = ""; // Очищення вмісту текстового блоку
+
+            // Отримання словника товарів за однаковими цінами
+            var productsByPrice = productList.GetProductsByPrice();
+
+            // Виведення інформації про товари з однаковими цінами у текстовий блок
+            StringBuilder resultBuilder = new StringBuilder();
+            foreach (var kvp in productsByPrice)
+            {
+                resultBuilder.AppendLine($"Price: {kvp.Key}");
+                foreach (var product in kvp.Value)
+                {
+                    resultBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}, Manufacture Date: {product.ManufactureDate}");
+                    // Додаткова інформація про товар (назва, тип, дата виготовлення)
+                }
+                resultBuilder.AppendLine();
+            }
+
+            GroupByPriceResultTextBlock.Text = resultBuilder.ToString(); // Оновлення вмісту текстового блоку
+            GroupByPriceResultPanel.Visibility = Visibility.Visible;
         }
+
+
 
 
 

@@ -11,6 +11,7 @@
         Background="Transparent"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
+
     <Border
                 BorderBrush="#2B304D"
                 CornerRadius="20">
@@ -32,14 +33,14 @@
                             x:Name="EmailTextBox"
                             Margin="0, 45, 0, 0"
                             Height="50"
-                            Width="300">
+                            Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
                     </TextBox>
 
-                    <PasswordBox
+                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}"
                             x:Name="PasswordTextBox"
                             Margin="0, 15, 0, 0"
                             Height="50"
-                            Width="300">
+                            Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
                     </PasswordBox>
 
                     <Button

@@ -196,77 +196,31 @@ namespace oopCursed.DB
             return sortedList;
         }
 
-        public Dictionary<string, Dictionary<DateTime, List<Product>>> GetProductsByManufactureDateAndType()
+        public Dictionary<string, List<Product>> GetProductsByManufactureDateAndType()
         {
             var productsByManufactureDateAndType = Products
-                .GroupBy(p => new { p.Type, p.ManufactureDate })
+                .Where(p => p.ManufactureDate.HasValue) // Фільтрація за наявністю дати виготовлення
+                .GroupBy(p => new { p.ManufactureDate.Value.Date, p.Type }) // Групування за датою виготовлення та типом
                 .ToDictionary(
-                    group => group.Key.Type,
-                    group => group.GroupBy(p => p.ManufactureDate)
-                                  .ToDictionary(innerGroup => innerGroup.Key ?? DateTime.MinValue, innerGroup => innerGroup.ToList())
+                    g => $"{g.Key.Type}-{g.Key.Date:yyyy-MM-dd}",
+                    g => g.ToList()
                 );
 
             return productsByManufactureDateAndType;
         }
 
-
-
-
-
-
-
-
-
-        // Group products by manufacture date and type
-        public Dictionary<DateTime, Dictionary<string, List<Product>>> GroupProductsByManufactureDateAndType()
+        public Dictionary<int?, List<Product>> GetProductsByPrice()
         {
-            return Products
-                .GroupBy(p => p.ManufactureDate)
-                .ToDictionary(g => g.Key ?? DateTime.MinValue,
-                              g => g.GroupBy(p => p.Type).ToDictionary(typeGroup => typeGroup.Key, typeGroup => typeGroup.ToList()));
-        }
-
-        // Group and sort products by price        
-        public ObservableCollection<Product> GroupProductsByPrice()
-        {
-            var GroupProductsByPrice = new ObservableCollection<Product>(Products.OrderBy(p => p.Price));
-            return GroupProductsByPrice;
-        }
-
-
-
-        // Calculate and display the total cost of products by type
-        public Dictionary<string, decimal?> CalculateAndDisplayTotalCostByType()
-        {
-            var totalCostByType = Products
-                .GroupBy(p => p.Type)
-                .ToDictionary(g => g.Key, g => (decimal?)g.Sum(p => (decimal?)p.Price * p.Quantity));
-
-            var sortedTotalCostByType = totalCostByType
-                .OrderByDescending(kv => kv.Value)
-                .ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            return sortedTotalCostByType;
-        }
-
-
-        // Display products with the same manufacture date separately for each type
-        public Dictionary<DateTime, Dictionary<string, List<Product>>> DisplayProductsByManufactureDateAndType()
-        {
-            // Group products by manufacture date and type
-            var groupedProducts = Products
-                .GroupBy(p => new { p.ManufactureDate, p.Type })
-                .OrderBy(g => g.Key.ManufactureDate)
-                .ThenBy(g => g.Key.Type)
+            var productsByPrice = Products
+                .GroupBy(p => p.Price) // Групуємо товари за ціною
                 .ToDictionary(
-                    g => g.Key.ManufactureDate ?? DateTime.MinValue,
-                    g => g.GroupBy(p => p.Type).ToDictionary(typeGroup => typeGroup.Key, typeGroup => typeGroup.ToList())
+                    g => g.Key, // Ключ - ціна товару
+                    g => g.ToList()
                 );
 
-            return groupedProducts;
+            return productsByPrice;
         }
 
-       
 
     }
 }

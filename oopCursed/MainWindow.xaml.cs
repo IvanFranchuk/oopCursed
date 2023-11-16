@@ -25,11 +25,9 @@ using oopCursed.code1;
 using DynamicData;
 using Microsoft.Win32;
 
+
 namespace oopCursed
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private ProductList productList;
@@ -126,12 +124,21 @@ namespace oopCursed
         }
         private void ShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
         {
-            int minPrice = int.Parse(MinPriceTextBox.Text); // Replace with the actual minimum price
-            int maxPrice = int.Parse(MaxPriceTextBox.Text); // Replace with the actual maximum price
+            if (!int.TryParse(MinPriceTextBox.Text, out int minPrice))
+            {
+                MessageBox.Show("Будь ласка, введіть числове значення для мінімальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!int.TryParse(MaxPriceTextBox.Text, out int maxPrice))
+            {
+                MessageBox.Show("Будь ласка, введіть числове значення для максимальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             var productsInPriceRange = productList.GetProductsInPriceRange(minPrice, maxPrice);
             SelectPriceRangePopup.IsOpen = false;
 
-            // Update the DataGrid with the filtered products
             ProductDataGrid.ItemsSource = productsInPriceRange;
         }
 
@@ -153,19 +160,19 @@ namespace oopCursed
         // 4) |=================| ALL TYPES SUM + SORTING |=================|
         private void ShowTypesWithPricePopupButton_Click(object sender, RoutedEventArgs e)
         {
-            ProductListPanel.Visibility = Visibility.Visible;
-            TypeWithPricePopup.IsOpen = true;
+            ProductListPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+
+            TypePriceResultPanel.Visibility = Visibility.Visible;
+            TypeWithPriceListTextBox.Text = string.Empty;
             List<KeyValuePair<string, decimal?>> TypeList = productList.GetTotalCostByTypeSorted();
             StringBuilder TypeListSB = new StringBuilder();
             foreach (var item in TypeList)
             {
                 TypeListSB.AppendLine($"Type: {item.Key}, Total Cost: {item.Value}");
             }
-            TypeListTextBox.Text = TypeListSB.ToString();
-        }
-        private void CloseTypeWithPricePopupButton_Click(object sender, RoutedEventArgs e)
-        {
-            TypeWithPricePopup.IsOpen = false;
+            TypeWithPriceListTextBox.Text = TypeListSB.ToString();
         }
 
         //5) |=================| SAME MANAFACTURE DATE + SAPARATED BY TYPES  |=================|
@@ -173,26 +180,26 @@ namespace oopCursed
         {
             ProductListPanel.Visibility = Visibility.Collapsed;
             GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
 
             var productsByManufactureDateAndType = productList.GetProductsByManufactureDateAndType();
 
             StringBuilder resultTextBuilder = new StringBuilder();
             foreach (var kvp in productsByManufactureDateAndType)
             {
-                resultTextBuilder.AppendLine($"Key: {kvp.Key}"); // Додаємо ключ (тип товару та дата виготовлення)
-                resultTextBuilder.AppendLine("Products:");
+                resultTextBuilder.AppendLine($"Group: {kvp.Key}");
                 foreach (var product in kvp.Value)
                 {
-                    resultTextBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}, Manufacture Date: {product.ManufactureDate}");
-                    // Додаємо додаткову інформацію про товар (назва, тип, дата виготовлення)
+                    CultureInfo englishCulture = new CultureInfo("en-US");
+                    resultTextBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}");
                 }
+                resultTextBuilder.AppendLine();
             }
-            // clear
             GroupByTypeAndDateResultTextBlock.Text = " ";
-            // Відображаємо отриманий текст у блоку тексту
             GroupByTypeAndDateResultTextBlock.Text = resultTextBuilder.ToString();
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Visible;
         }
+
 
 
 
@@ -201,28 +208,34 @@ namespace oopCursed
         {
             ProductListPanel.Visibility = Visibility.Collapsed;
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
-            GroupByPriceResultTextBlock.Text = ""; // Очищення вмісту текстового блоку
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultTextBlock.Text = "";
 
-            // Отримання словника товарів за однаковими цінами
             var productsByPrice = productList.GetProductsByPrice();
 
-            // Виведення інформації про товари з однаковими цінами у текстовий блок
             StringBuilder resultBuilder = new StringBuilder();
             foreach (var kvp in productsByPrice)
             {
                 resultBuilder.AppendLine($"Price: {kvp.Key}");
                 foreach (var product in kvp.Value)
                 {
-                    resultBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}, Manufacture Date: {product.ManufactureDate}");
-                    // Додаткова інформація про товар (назва, тип, дата виготовлення)
+                    CultureInfo englishCulture = new CultureInfo("en-US");
+                    resultBuilder.AppendLine($" - Name: {product.Name}, Type: {product.Type}, Manufacture Date: {product.ManufactureDate?.ToString("dd MMM yyyy", englishCulture)}");
                 }
                 resultBuilder.AppendLine();
             }
 
-            GroupByPriceResultTextBlock.Text = resultBuilder.ToString(); // Оновлення вмісту текстового блоку
+            GroupByPriceResultTextBlock.Text = resultBuilder.ToString();
             GroupByPriceResultPanel.Visibility = Visibility.Visible;
         }
 
+        private void ExitGroupByTypeAndDate_Click(object sender, RoutedEventArgs e)
+        {
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductListPanel.Visibility = Visibility.Visible;
+        }
 
 
 
@@ -261,22 +274,36 @@ namespace oopCursed
 
         private void AddProductConfirm_Click(object sender, RoutedEventArgs e)
         {
-            // Отримати значення з елементів введення інформації про продукт
             string productName = ProductNameTextBox.Text;
             int productPrice = int.Parse(PriceTextBox.Text);
             string productType = (TypeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (TypeComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Будь ласка, оберіть тип товару.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             int productQuantity = int.Parse(QuantityTextBox.Text);
-            DateTime manufactureDate = ManufactureDatePicker.SelectedDate ?? DateTime.Now;
-            DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
+            //DateTime manufactureDate = ManufactureDatePicker.SelectedDate ?? DateTime.Now;
+            //DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
+            if (!DateTime.TryParse(ManufactureDatePicker.Text, out DateTime manufactureDate))
+            {
+                MessageBox.Show("Будь ласка, введіть коректну дату виготовлення.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!DateTime.TryParse(ShelfLifeDatePicker.Text, out DateTime shelfLife))
+            {
+                MessageBox.Show("Будь ласка, введіть коректний термін придатності.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             string character = CharacterTextBox.Text;
 
-            // Додати продукт до списку
             productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife, character));
 
-            // Закрити викидне вікно
             AddProductPopup.IsOpen = false;
 
-            // Скинути значення елементів введення
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
             QuantityTextBox.Text = "";
@@ -291,24 +318,30 @@ namespace oopCursed
         {
             try
             {
-                // Check if any item is selected in the DataGrid
                 if (ProductDataGrid.SelectedItem != null && ProductDataGrid.SelectedItem is DB.Product selectedProduct)
                 {
-                    // Call the RemoveProduct method to remove the selected product
                     productList.RemoveProduct(selectedProduct);
                 }
                 else
                 {
-                    // Provide feedback to the user that no item is selected
                     MessageBox.Show("Please select a product to delete.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show an error message)
                 Console.WriteLine($"Error deleting product: {ex.Message}");
             }
         }
+
+
+        // |=================| DELETE CHECKED PRODUCT |=================|
+        private void DeleteSelectedProductsButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+
+
 
         // |=================| READ FROM FILE |=================|
         private void AddFromFileButton_Click(object sender, RoutedEventArgs e)
@@ -318,21 +351,14 @@ namespace oopCursed
             bool? result = openFileDialog.ShowDialog();
             if (result == true)
             {
-                // Отримати шлях до вибраного файлу
                 string filePath = openFileDialog.FileName;
                 productList.ReadProductsFromFile(filePath);
-
-                // Тепер ви можете використовувати filePath для читання файлу чи інших операцій
                 Console.WriteLine($"Вибраний файл: {filePath}");
             }
             else
             {
                 Console.WriteLine("Користувач скасував вибір файлу.");
             }
-
-            
-
-            // Call the ReadProductsFromFile function
            
         }
 

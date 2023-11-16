@@ -132,8 +132,15 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+
+            <!--A LOT TEXT-->
+            
+
+
+        </Style>    
     </Window.Resources>
+    
+    
    
     <!--Window.Resources>
         <ResourceDictionary Source="Themes/Light.xaml"/>
@@ -493,21 +500,74 @@
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                         </DataGrid>
                         </StackPanel>
 
                         <StackPanel x:Name="GroupByTypeAndDateResultPanel" Visibility="Collapsed">
-                            <ScrollViewer Height="400" VerticalScrollBarVisibility="Auto">
-                                <TextBlock x:Name="GroupByTypeAndDateResultTextBlock" TextWrapping="Wrap" />
+                            <Button Click="ExitGroupByTypeAndDate_Click" Style="{DynamicResource closeButtonStyle}"  
+                                    Width="20"
+                                    Height="20"
+                                    BorderBrush="#FFE94D4D"                           
+                                    Background="Transparent"
+                                    BorderThickness="3"                           
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0 3 3 0"/>
+                            <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">
+                                <Grid Background="Transparent">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Products grouped by type and price" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
+                                    <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="GroupByTypeAndDateResultTextBlock" TextWrapping="Wrap" Foreground="{DynamicResource GroupForeground}" Grid.Row="1" />
+                                </Grid>                                
                             </ScrollViewer>
                         </StackPanel>
 
                         <StackPanel x:Name="GroupByPriceResultPanel" Visibility="Collapsed">
-                            <ScrollViewer Height="400" VerticalScrollBarVisibility="Auto">
-                                <TextBlock x:Name="GroupByPriceResultTextBlock" TextWrapping="Wrap" />
+                            <Button Click="ExitGroupByTypeAndDate_Click" Style="{DynamicResource closeButtonStyle}"  
+                                    Width="20"
+                                    Height="20"
+                                    BorderBrush="#FFE94D4D"                           
+                                    Background="Transparent"
+                                    BorderThickness="3"                           
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0 3 3 0"/>
+                            <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">                                
+                                <Grid Background="Transparent">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Products grouped by price" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
+                                    <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="GroupByPriceResultTextBlock" TextWrapping="Wrap" Foreground="{DynamicResource GroupForeground}" Grid.Row="1"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </StackPanel>
+
+                        <StackPanel x:Name="TypePriceResultPanel" Visibility="Collapsed">
+                            <Button Click="ExitGroupByTypeAndDate_Click" Style="{DynamicResource closeButtonStyle}"  
+                                    Width="20"
+                                    Height="20"
+                                    BorderBrush="#FFE94D4D"                           
+                                    Background="Transparent"
+                                    BorderThickness="3"                           
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0 3 3 0"/>
+                            <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">
+                                <Grid Background="Transparent">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Avarage type cost" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
+                                    <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="TypeWithPriceListTextBox"  Foreground="{DynamicResource mainTextColor}" TextWrapping="Wrap" Grid.Row="1"/>
+                                </Grid>
                             </ScrollViewer>
                         </StackPanel>
 
@@ -515,6 +575,16 @@
                     </StackPanel>
                 </Border>
                 <StackPanel Orientation="Horizontal">
+                    <Button
+                    Style="{DynamicResource featureButtonStyle}"
+                    Height="50"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Content="Delete"
+                    Margin="700 0 25 0"
+                    Foreground="White"
+                    Click="DeleteSelectedProductsButton_Click">
+                    </Button>
                     
                     <Button
                     Style="{DynamicResource featureButtonStyle}"
@@ -522,7 +592,7 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Content=" + Add"
-                    Margin="820 0 25 0"
+                    Margin="0 0 25 0"
                     Foreground="White"
                     Click="AddButton_Click">
                     </Button>
@@ -667,22 +737,7 @@
                             <Button Style="{DynamicResource featureButtonStyle}" Width="100" Height="50" Content="Close" Click="CloseShortestAverageStorageTermPopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
                         </Grid>
                     </Border>
-                </Popup>
-
-                <Popup x:Name="TypeWithPricePopup" Placement="Center">
-                    <Border  CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
-                        <Grid Background="{DynamicResource popupBGColor}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Avarage type cost" Margin="10" FontFamily="Arial Black"/>
-                            <TextBlock x:Name="TypeListTextBox" Margin="10" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Trebuchet MS" Grid.Row="1"/>
-                            <Button Style="{DynamicResource featureButtonStyle}" Width="100" Height="50" Content="Close" Click="CloseTypeWithPricePopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
-                        </Grid>
-                    </Border>
-                </Popup>
+                </Popup>                
             </StackPanel>
         </Grid>
     </Border>   

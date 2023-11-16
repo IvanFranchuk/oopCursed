@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 namespace oopCursed.DB;
-
-public enum ProductType
-{
-    Electronics,
-    Clothing,
-    Food,
-    Books,
-    Cosmetics,
-    // Додайте інші типи товарів за необхідності
-}
 
 public partial class Product
 {
@@ -37,7 +25,7 @@ public partial class Product
     public virtual Warehouse? Warehouse { get; set; }
 
     public Product() { }
-   public Product(int id, string name, int pricePerUnit, DateTime manufactureDate, string type,  int quantity, DateTime? shelfLife, String character)
+    public Product(int id, string name, int pricePerUnit, DateTime manufactureDate, string type, int quantity, DateTime? shelfLife, String character)
     {
         Id = id;
         Name = name;

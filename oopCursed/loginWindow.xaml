@@ -12,67 +12,38 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
 
-    <Border
-                BorderBrush="#2B304D"
-                CornerRadius="20">
+    <Border BorderBrush="#2B304D" CornerRadius="20">
         <Border.Background>
             <ImageBrush ImageSource="/light_login_bg_croped.png"/>
         </Border.Background>
         <Grid>
-            <Border
-                        Height="400"
-                        Width="400"
-                        Background="{DynamicResource mainColor}" 
-                        BorderBrush="{DynamicResource upBarColor}"
-                        BorderThickness="5"
-                        CornerRadius="20">
-                <StackPanel>
+            <Border Height="400" Width="400" Background="{DynamicResource mainColor}" 
+                BorderBrush="{DynamicResource upBarColor}" BorderThickness="5" CornerRadius="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
+                    <TextBlock Text="Email:" Margin="45 5 5 50" Grid.Row="0" VerticalAlignment="Bottom"/>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="EmailTextBox" Margin="0, 45, 0, 0"
+                        Height="50" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"
+                        Grid.Row="0"/>
+                    <TextBlock Text="Password:" Margin="45 5 5 5" Grid.Row="1"/>
+                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="PasswordTextBox" Margin="0, 15, 0, 0"
+                            Height="50" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"
+                            Grid.Row="1"/>
 
-                    <TextBox Style="{DynamicResource TextBoxStyle1}"
-                            x:Name="EmailTextBox"
-                            Margin="0, 45, 0, 0"
-                            Height="50"
-                            Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
-                    </TextBox>
+                    <Button Style="{DynamicResource featureButtonStyle}" Margin="0, 15, 0, 0" Height="70" Width="200"
+                        Content="Log in" FontSize="22" Click="loginButton_Click" Foreground="White"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
 
-                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}"
-                            x:Name="PasswordTextBox"
-                            Margin="0, 15, 0, 0"
-                            Height="50"
-                            Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
-                    </PasswordBox>
-
-                    <Button
-                            Style="{DynamicResource featureButtonStyle}"
-                            Margin="0, 15, 0, 0"            
-                            Height="70"
-                            Width="200"
-                            Content="Log in"
-                            FontSize="22" 
-                            Click="loginButton_Click"
-                            Foreground="White">
-
-                    </Button>
-                    <Button
-                        Height="50"
-                        Width="150"
-                        Content="sing up"
-                        Click="OpenSingUpWindow_Click"
-                        Margin="0, 10, 0, 0">                        
-                    </Button>
-
-                    <ToggleButton 
-                        x:Name="DarkThemetb"
-                        Margin="0, 10,0,0"
-                        Height="30" 
-                        Width="60"
-                        Checked="DarkThemetb_Checked"
-                        Unchecked="LightThemetb_Checked"/>
-                </StackPanel>
+                    <Button Height="50" Width="150" Content="Sing up" Click="OpenSingUpWindow_Click" Margin="0, 10, 0, 0"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
+                </Grid>
             </Border>
-
-
         </Grid>
     </Border>
 </Window>

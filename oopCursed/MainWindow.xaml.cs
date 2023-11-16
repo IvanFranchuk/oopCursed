@@ -126,12 +126,14 @@ namespace oopCursed
         {
             if (!int.TryParse(MinPriceTextBox.Text, out int minPrice))
             {
+                SelectPriceRangePopup.IsOpen = false;
                 MessageBox.Show("Будь ласка, введіть числове значення для мінімальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!int.TryParse(MaxPriceTextBox.Text, out int maxPrice))
             {
+                SelectPriceRangePopup.IsOpen = false;
                 MessageBox.Show("Будь ласка, введіть числове значення для максимальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }

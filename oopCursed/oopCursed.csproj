@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <None Remove="img\moon.png" />
+    <None Remove="img\sun.png" />
     <None Remove="light_login_bg_croped.png" />
   </ItemGroup>
 
@@ -32,6 +34,8 @@
 
   <ItemGroup>
     <Resource Include="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <Resource Include="img\moon.png" />
+    <Resource Include="img\sun.png" />
     <Resource Include="light_login_bg_croped.png" />
   </ItemGroup>
 

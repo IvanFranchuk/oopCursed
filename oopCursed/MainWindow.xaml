@@ -16,128 +16,6 @@
         
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <Window.Resources>
-        <Style x:Key="ToggleButtonThemeStyle" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Tag" Value="{DynamicResource {x:Static SystemParameters.HighContrastKey}}"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <ControlTemplate.Resources>
-                            <Storyboard x:Key="OnChecked">
-                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                                  Storyboard.TargetName="path">
-                                    <EasingThicknessKeyFrame KeyTime="0" Value="40,0,0,0"/>
-                                </ThicknessAnimationUsingKeyFrames>
-                            </Storyboard>
-                            <Storyboard x:Key="OnUnchecked">
-                                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)"
-                                                                  Storyboard.TargetName="path">
-                                    <EasingThicknessKeyFrame KeyTime="0" Value="0"/>
-                                </ThicknessAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </ControlTemplate.Resources>
-                        <Border x:Name="toggleBorder"
-                                CornerRadius="13"
-                                Background="{DynamicResource bgColor}"
-                                Width="60"
-                                Height="26"
-                                BorderThickness="1"
-                                BorderBrush="Black">
-                            <Grid>
-                                <Path x:Name="path">
-                                    <Path.Fill>
-                                        <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
-                                            <GradientStop Color="White"/>
-                                        </LinearGradientBrush>
-                                    </Path.Fill>
-                                    <Path.Data>
-                                        <GeometryGroup>
-                                            <GeometryGroup.Children>
-                                                <EllipseGeometry Center="6,12" RadiusX="9" RadiusY="9"/>
-                                            </GeometryGroup.Children>
-                                        </GeometryGroup>
-                                    </Path.Data>
-                                </Path>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <EventTrigger RoutedEvent="ToggleButton.Checked">
-                                <BeginStoryboard Storyboard="{StaticResource OnChecked}"/>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
-                                <BeginStoryboard Storyboard="{StaticResource OnUnchecked}"/>
-                            </EventTrigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#eeeeee"/>
-                                <Setter TargetName="toggleBorder" Property="Background" Value="#0e0f2a"/>
-                                <Setter TargetName="toggleBorder" Property="BorderBrush" Value="#0e0f2a"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter TargetName="toggleBorder" Property="Background" Value="LightGray"/>
-                                <Setter TargetName="path" Property="Fill">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
-                                            <GradientStop Color="#eeeeee"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter TargetName="path" Property="Data">
-                                    <Setter.Value>
-                                        <GeometryGroup>
-                                            <GeometryGroup.Children>
-                                                <EllipseGeometry Center="13,12" RadiusX="9" RadiusY="9"/>
-                                            </GeometryGroup.Children>
-                                        </GeometryGroup>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <!-- High Contrast -->
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=IsHighContrastWhite, Source={x:Static local:HighContrastHelper.Instance}}" Value="true" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="true"/>
-                                    <Condition Binding="{Binding ElementName=toggleButton, Path=IsChecked}" Value="true"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter TargetName="toggleBorder" Property="Background" Value="Blue"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=IsHighContrastWhite, Source={x:Static local:HighContrastHelper.Instance}}" Value="true" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="true"/>
-                                    <Condition Binding="{Binding ElementName=toggleButton, Path=IsChecked}" Value="false"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter TargetName="toggleBorder" Property="Background" Value="Black"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=IsHighContrastBlack, Source={x:Static local:HighContrastHelper.Instance}}" Value="true" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="true"/>
-                                    <Condition Binding="{Binding ElementName=toggleButton, Path=IsChecked}" Value="true"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter TargetName="toggleBorder" Property="Background" Value="Aqua"/>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=IsHighContrastBlack, Source={x:Static local:HighContrastHelper.Instance}}" Value="true" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="true"/>
-                                    <Condition Binding="{Binding ElementName=toggleButton, Path=IsChecked}" Value="false"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter TargetName="toggleBorder" Property="Background" Value="Yellow"/>
-                            </MultiDataTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <!--A LOT TEXT-->
-            
-
-
-        </Style>    
     </Window.Resources>
     
     
@@ -161,15 +39,39 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <StackPanel Background="{DynamicResource upBarColor}"
-                        Margin="40,0,0,0">
-                <TextBlock Text="07 jul 2005"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
-                        Foreground="White"
-                        FontSize="14"
-                        FontFamily="Arial Black"
-                        Margin="5,10,0,0"/>
+            <StackPanel Background="{DynamicResource upBarColor}"  Orientation="Horizontal"
+                        Margin="20,0,0,0">              
+
+                <ToggleButton Height="30" Width="30" Margin="0,0,0,0" x:Name="ThemeToggleButton" BorderThickness="0" Checked="DarkThemetb_Checked" Unchecked="LightThemetb_Checked">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid Background="Transparent">
+                                            <Image x:Name="Icon" Source="pack://application:,,,/img/sun.png" Width="24" Height="24"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="Icon" Property="Source" Value="pack://application:,,,/img/moon.png"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <!--TextBlock Text=""
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           FontSize="14"
+                           FontFamily="Arial Black"
+                           Margin="5,0,0,0"/-->
+
+
             </StackPanel>
 
             <StackPanel Grid.Column="1"
@@ -217,7 +119,7 @@
             <StackPanel Grid.Row="1"
                        Background="{DynamicResource mainColor}">
                 <TextBlock x:Name="WarehouseName"
-                           Text="PES STRAPON"
+                           Text="WAREHOUSE"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Foreground="{DynamicResource mainTextColor}"
@@ -307,11 +209,7 @@
                          Click="ShowTypesWithPricePopupButton_Click"
                          Margin="50,0,0,0"/>
 
-                <ToggleButton Style="{DynamicResource ToggleButtonThemeStyle}" 
-                    x:Name="DarkThemetb"
-                    Height="60"                     
-                    Checked="DarkThemetb_Checked"
-                    Unchecked="LightThemetb_Checked"/>
+                
 
 
                 <Border
@@ -341,7 +239,7 @@
                         </Border>
                         <StackPanel>
                             <TextBlock x:Name="Surname"
-                                       Text="ogogogogoog"
+                                       Text="Surname"
                                        Width="160"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="right"
@@ -350,7 +248,7 @@
                                        FontFamily="Arial Black"
                                        Margin="0,25,0,0"/>
                             <TextBlock x:Name="Name"
-                                       Text="krutelyk"
+                                       Text="Name"
                                        Width="160"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="right"
@@ -401,16 +299,14 @@
                             Width="240"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
                             />
-                    <Button Content="i love PESA PATRONA"
+                    <Button Style="{DynamicResource featureButtonStyle}"
+                            Foreground="White"
+                            Content="i love PESA PATRONA"
                             Height="90"
                             Width="240"
                             Margin="20,10,0,10" 
                             FontSize="18" 
-                            FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}"
-                            >
-                        <Button.Effect>
-                            <WPF_Neumorphism_Plus:Neumorphism_Plus_Shader BorderRadius="30" PrimaryColor="#FFB9BDC5" SecondaryColor="#FFEAF6FB"/>
-                        </Button.Effect>
+                            FontWeight="Bold">
                     </Button>
 
 

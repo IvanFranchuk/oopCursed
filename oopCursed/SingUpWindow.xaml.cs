@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,11 +28,14 @@ namespace oopCursed
             dbContext = new ProductManagerContext();
         }
         
-        private void CreateWarehouse_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            WarehouseInfoPopup.IsOpen = true;
-        }
         
+
+        private bool IsValidEmail(string email)
+        {
+            string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            return Regex.IsMatch(email, emailPattern);
+        }
+
         private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -48,6 +52,12 @@ namespace oopCursed
                 string.IsNullOrWhiteSpace(confirmPassword))
             {
                 MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Please enter a valid email address.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -88,7 +98,6 @@ namespace oopCursed
 
             MessageBox.Show("User registered successfully with a new warehouse.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            WarehouseInfoPopup.IsOpen = false;
 
             loginWindow objLoginWindow = new loginWindow();
             this.Visibility = Visibility.Hidden;

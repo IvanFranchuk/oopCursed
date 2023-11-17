@@ -280,28 +280,28 @@
                 <StackPanel Orientation="Horizontal">
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
-                            Content="yakas huynia"
+                            Content="Sort by Name"
                             Height="90"
                             Width="240"
                             Margin="20,10,0,10" 
                             FontSize="18" FontWeight="Bold"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
-                            Content="razchelovechivaniya"
+                            Content="Sort by Price"
                             Height="90"
                             Width="240"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
                             />
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
-                            Content="salopitek"
+                            Content="Sort by Type"
                             Height="90"
                             Width="240"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
                             />
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
-                            Content="i love PESA PATRONA"
+                            Content="Sort by Quantity"
                             Height="90"
                             Width="240"
                             Margin="20,10,0,10" 
@@ -324,27 +324,74 @@
                               Grid.Row="7"
                                       Height="525"
                               x:Name="ProductDataGrid">
-                        <DataGrid.Columns>
-                            <DataGridCheckBoxColumn CanUserResize="False" Width="auto" ElementStyle="{StaticResource CheckBoxStyle1}">
-                                <DataGridCheckBoxColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                            <CheckBox Style="{StaticResource CheckBoxStyle1}"/>
-                                    </DataTemplate>
-                                </DataGridCheckBoxColumn.HeaderTemplate>
-                            </DataGridCheckBoxColumn>
-                            
-                            
-                            <DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/>
+                        <DataGrid.Columns>                           
+                            <!--DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/-->
 
                             <DataGridTemplateColumn Header="Product" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                                <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="#52349c">
-                                                    <TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
-                                            </Border>
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-                                        </StackPanel>
+                                                    <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background" Value="#52349c" />
+                                                                <!-- За замовчуванням -->
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Electronics">
+                                                                        <Setter Property="Background" Value="Green" />
+                                                                        <!-- Колір для Electronics -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Clothing">
+                                                                        <Setter Property="Background" Value="Blue" />
+                                                                        <!-- Колір для Clothing -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Food">
+                                                                        <Setter Property="Background" Value="Red" />
+                                                                        <!-- Колір для Food -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Books">
+                                                                        <Setter Property="Background" Value="Orange" />
+                                                                        <!-- Колір для Books -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Cosmetics">
+                                                                        <Setter Property="Background" Value="Purple" />
+                                                                        <!-- Колір для Cosmetics -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Furniture">
+                                                                        <Setter Property="Background" Value="Brown" />
+                                                                        <!-- Колір для Furniture -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Toys">
+                                                                        <Setter Property="Background" Value="Yellow" />
+                                                                        <!-- Колір для Toys -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Sporting Goods">
+                                                                        <Setter Property="Background" Value="Cyan" />
+                                                                        <!-- Колір для Sporting Goods -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Tools">
+                                                                        <Setter Property="Background" Value="LightBlue" />
+                                                                        <!-- Колір для Tools -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Jewelry">
+                                                                        <Setter Property="Background" Value="Pink" />
+                                                                        <!-- Колір для Jewelry -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Automotive">
+                                                                        <Setter Property="Background" Value="DarkGray" />
+                                                                        <!-- Колір для Automotive -->
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Home and Garden">
+                                                                        <Setter Property="Background" Value="LimeGreen" />
+                                                                        <!-- Колір для Home and Garden -->
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <!--TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/-->
+                                                    </Border>
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                                </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 
@@ -353,13 +400,13 @@
                                 <DataGridTextColumn Header="Price" IsReadOnly="True" Width="80" Binding="{Binding Price}"/>
                                 <DataGridTextColumn Header="Type" IsReadOnly="True" Width="auto" Binding="{Binding Type}"/>
                                 <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="80" Binding="{Binding Quantity}"/>
-                                <!--DataGridTextColumn Header="Manafacture" IsReadOnly="True" Width="*" Binding="{Binding ManufactureDate}"/-->
+                               
                                 <DataGridTextColumn Header="Manufacture Date" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
                                         <Binding Path="ManufactureDate" StringFormat="dd MMMM , yyyy"/>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                <!--DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="*" Binding="{Binding ShelfLife}"/-->
+                                
                                 <DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
                                         <Binding Path="ShelfLife" StringFormat="dd MMMM , yyyy"/>

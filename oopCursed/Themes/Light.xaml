@@ -15,6 +15,10 @@
 
     <SolidColorBrush Color="#2B304D" x:Key="GroupForeground"/>
 
+    <SolidColorBrush Color="#2B304D" x:Key="ColumnNameBG"/>
+
+    <SolidColorBrush Color="#2B304D" x:Key="UserInfoTextForeground"/>
+
 
 
 

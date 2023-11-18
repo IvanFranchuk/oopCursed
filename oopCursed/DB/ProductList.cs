@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 
 namespace oopCursed.DB
@@ -34,10 +35,11 @@ namespace oopCursed.DB
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show an error message)
-                Console.WriteLine($"Error adding product: {ex.Message}");
+                // Show an error message for exceptions
+                MessageBox.Show($"Error adding product: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         public void RemoveProduct(Product productToRemove)
         {
             try
@@ -48,8 +50,8 @@ namespace oopCursed.DB
             }
             catch (Exception ex)
             {
-                // Handle the exception (e.g., log it, show an error message)
-                Console.WriteLine($"Error removing product: {ex.Message}");
+                // Show an error message for exceptions
+                MessageBox.Show($"Error removing product: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -57,6 +59,9 @@ namespace oopCursed.DB
         {
             try
             {
+                // Extract the file name without extension
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+
                 // Read all lines from the file
                 string[] lines = File.ReadAllLines(filePath);
 
@@ -66,7 +71,7 @@ namespace oopCursed.DB
                     string[] values = line.Split(',');
 
                     // Check if the line contains the expected number of values
-                    if (values.Length == 7)
+                    if (values.Length == 6)
                     {
                         // Parse values and create a new Product
                         string productName = values[0].Trim();
@@ -75,36 +80,64 @@ namespace oopCursed.DB
                         string productType = values[3].Trim();
                         int productQuantity = int.Parse(values[4].Trim());
                         DateTime shelfLife = DateTime.Parse(values[5].Trim());
-                        string character = values[6].Trim();
 
-                        // Create a new Product
-                        Product newProduct = new Product
+                        // Check if the product type matches the file name
+                        if (productType.Equals(fileName, StringComparison.OrdinalIgnoreCase))
                         {
-                            Name = productName,
-                            Price = productPrice,
-                            ManufactureDate = manufactureDate,
-                            Type = productType,
-                            Quantity = productQuantity,
-                            ShelfLife = shelfLife,
-                            Character = character
-                        };
+                            // Create a new Product
+                            Product newProduct = new Product
+                            {
+                                Name = productName,
+                                Price = productPrice,
+                                ManufactureDate = manufactureDate,
+                                Type = productType,
+                                Quantity = productQuantity,
+                                ShelfLife = shelfLife,
+                            };
 
-                        // Add the new product to the collection
-                        AddProduct(newProduct);
+                            // Add the new product to the collection
+                            AddProduct(newProduct);
+                        }
                     }
                     else
                     {
-                        // Log a warning or handle invalid lines as needed
-                        Console.WriteLine($"Invalid line: {line}");
+                        // Show a warning for invalid lines
+                        MessageBox.Show($"Invalid line: {line}", "Invalid Data", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Handle exceptions (e.g., log, display an error message)
-                Console.WriteLine($"Error reading products from file: {ex.Message}");
+                // Show an error message for exceptions
+                MessageBox.Show($"Error reading products from file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+        public void WriteProductsToFile(string filePath)
+        {
+            try
+            {
+                // Extract the file name without extension
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+
+                // Filter products by matching type with the file name
+                List<string> productStrings = Products
+                    .Where(p => p.Type.Equals(fileName, StringComparison.OrdinalIgnoreCase)) // StringComparison for case-insensitive comparison
+                    .Select(p => $"{p.Name},{p.Price},{p.ManufactureDate:yyyy-MM-dd},{p.Type},{p.Quantity},{p.ShelfLife:yyyy-MM-dd}")
+                    .ToList();
+
+                // Write the filtered product strings to the file
+                File.WriteAllLines(filePath, productStrings);
+            }
+            catch (Exception ex)
+            {
+                // Show an error message for exceptions
+                MessageBox.Show($"Error writing products to file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
 
 
 

@@ -25,7 +25,7 @@ public partial class Product
     public virtual Warehouse? Warehouse { get; set; }
 
     public Product() { }
-    public Product(int id, string name, int pricePerUnit, DateTime manufactureDate, string type, int quantity, DateTime? shelfLife, String character)
+    public Product(int id, string name, int pricePerUnit, DateTime manufactureDate, string type, int quantity, DateTime? shelfLife)
     {
         Id = id;
         Name = name;
@@ -34,7 +34,6 @@ public partial class Product
         Type = type;
         Quantity = quantity;
         ShelfLife = shelfLife;
-        Character = character;
     }
 
     public Product(Product other)

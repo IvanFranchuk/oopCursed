@@ -14,6 +14,10 @@
 
     <SolidColorBrush Color="#eeeeee" x:Key="GroupForeground"/>
 
+    <SolidColorBrush Color="#eeaa74" x:Key="ColumnNameBG"/>
+
+    <SolidColorBrush Color="#eeeeee" x:Key="UserInfoTextForeground"/>
+
 
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">

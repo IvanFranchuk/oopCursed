@@ -40,9 +40,9 @@
             </Grid.RowDefinitions>
 
             <StackPanel Background="{DynamicResource upBarColor}"  Orientation="Horizontal"
-                        Margin="20,0,0,0">              
+                        Margin="0,0,0,0">              
 
-                <ToggleButton Height="30" Width="30" Margin="0,0,0,0" x:Name="ThemeToggleButton" BorderThickness="0" Checked="DarkThemetb_Checked" Unchecked="LightThemetb_Checked">
+                <ToggleButton Height="30" Width="30" Margin="10,0,0,0" x:Name="ThemeToggleButton" BorderThickness="0" Checked="DarkThemetb_Checked" Unchecked="LightThemetb_Checked">
                     <ToggleButton.Style>
                         <Style TargetType="ToggleButton">
                             <Setter Property="Template">
@@ -79,13 +79,6 @@
                         Orientation="Horizontal"
                         MouseDown="DragWindow"
                         >
-                <TextBlock Text="БЕБЕ"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="right"
-                           Foreground="White"
-                           FontSize="14"
-                           FontFamily="Arial Black"
-                           Margin="925,0,10,0"/>
                 <Button Style="{DynamicResource hideWindowButtonStyle}"    Width="20"
                            Height="20"                           
                            BorderBrush="#FFf3e989"                           
@@ -93,17 +86,8 @@
                            BorderThickness="3"  
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"
-                           Margin="0,0,10,0" 
-                           Click="MinimizeButton_Click"/>
-                <Button Style="{DynamicResource windowSizeButtonStyle}"    Width="20"
-                           Height="20"
-                           BorderBrush="#FF83d168"                           
-                            Background="{DynamicResource upBarColor}"
-                           BorderThickness="3"    
-                           
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Margin="0,0,10,0"/>
+                           Margin="1005,0,10,0" 
+                           Click="MinimizeButton_Click"/>                
                 <Button Style="{DynamicResource closeButtonStyle}"  
                            Width="20"
                            Height="20"
@@ -134,7 +118,19 @@
                            FontSize="14"
                            FontFamily="Arial Black"
                            Margin="0,10,15,0"/>
-
+                <Button Style="{DynamicResource roundedMenuButtonStyle}"
+                        Content="Show all"
+                        x:Name="ShowAllProducts"
+                        Height="60"
+                        Width="250"
+                        Foreground="{DynamicResource mainTextColor}"
+                        FontSize="22"
+                        FontFamily="Trebuchet MS"
+                        FontWeight="Bold"
+                        HorizontalContentAlignment="Left"
+                        Padding="15"
+                        Click="ShowAllProductsButton_Click"
+                        Margin="50,20,0,0" />
                 <Button Style="{DynamicResource roundedMenuButtonStyle}"
                         Content="Price in range"
                         x:Name="selectionSortButton"
@@ -147,7 +143,7 @@
                         HorizontalContentAlignment="Left"
                         Padding="15"
                         Click="SelectPriceRangeButton_Click"
-                        Margin="50,20,0,0" />
+                        Margin="50,0,0,0" />
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
                         Content="Show mounth"
                         Height="60"
@@ -265,7 +261,8 @@
                                 FontSize="20"
                                 HorizontalContentAlignment="Left"
                                 Padding="15"
-                                Margin="0,10,0,0"/>
+                                Margin="0,10,0,0"
+                                Click="UserInfoButton_Click"/>
                         </StackPanel>
 
                     </StackPanel>
@@ -326,8 +323,7 @@
                               x:Name="ProductDataGrid">
                         <DataGrid.Columns>                           
                             <!--DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/-->
-
-                            <DataGridTemplateColumn Header="Product" IsReadOnly="True" Width="*">
+                            <DataGridTemplateColumn Header="Product" IsReadOnly="True" Width="300">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -338,58 +334,57 @@
                                                                 <!-- За замовчуванням -->
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Electronics">
-                                                                        <Setter Property="Background" Value="Green" />
+                                                                        <Setter Property="Background" Value="#0766AD" />
                                                                         <!-- Колір для Electronics -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Clothing">
-                                                                        <Setter Property="Background" Value="Blue" />
+                                                                        <Setter Property="Background" Value="#A25772" />
                                                                         <!-- Колір для Clothing -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Food">
-                                                                        <Setter Property="Background" Value="Red" />
+                                                                        <Setter Property="Background" Value="#89B9AD" />
                                                                         <!-- Колір для Food -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Books">
-                                                                        <Setter Property="Background" Value="Orange" />
+                                                                        <Setter Property="Background" Value="#B2533E" />
                                                                         <!-- Колір для Books -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Cosmetics">
-                                                                        <Setter Property="Background" Value="Purple" />
+                                                                        <Setter Property="Background" Value="#D988B9" />
                                                                         <!-- Колір для Cosmetics -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Furniture">
-                                                                        <Setter Property="Background" Value="Brown" />
+                                                                        <Setter Property="Background" Value="#3D0C11" />
                                                                         <!-- Колір для Furniture -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Toys">
-                                                                        <Setter Property="Background" Value="Yellow" />
+                                                                        <Setter Property="Background" Value="#10B9AD" />
                                                                         <!-- Колір для Toys -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Sporting Goods">
-                                                                        <Setter Property="Background" Value="Cyan" />
+                                                                        <Setter Property="Background" Value="#22092C" />
                                                                         <!-- Колір для Sporting Goods -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Tools">
-                                                                        <Setter Property="Background" Value="LightBlue" />
+                                                                        <Setter Property="Background" Value="#776B5D" />
                                                                         <!-- Колір для Tools -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Jewelry">
-                                                                        <Setter Property="Background" Value="Pink" />
+                                                                        <Setter Property="Background" Value="#F3B664" />
                                                                         <!-- Колір для Jewelry -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Automotive">
-                                                                        <Setter Property="Background" Value="DarkGray" />
+                                                                        <Setter Property="Background" Value="#1F1717" />
                                                                         <!-- Колір для Automotive -->
                                                                     </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Type}" Value="Home and Garden">
-                                                                        <Setter Property="Background" Value="LimeGreen" />
+                                                                        <Setter Property="Background" Value="#A7D397" />
                                                                         <!-- Колір для Home and Garden -->
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Border.Style>
-                                                        <!--TextBlock Text="{Binding Character}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/-->
-                                                    </Border>
+                                                        </Border>
                                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                     </DataTemplate>
@@ -398,7 +393,7 @@
                             </DataGridTemplateColumn>
                             
                                 <DataGridTextColumn Header="Price" IsReadOnly="True" Width="80" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="auto" Binding="{Binding Type}"/>
+                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
                                 <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="80" Binding="{Binding Quantity}"/>
                                
                                 <DataGridTextColumn Header="Manufacture Date" IsReadOnly="True" Width="auto">
@@ -413,21 +408,10 @@
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
 
-                                <DataGridTemplateColumn Header="Operations" IsReadOnly="True" Width="auto">
+                                <DataGridTemplateColumn Header="Remove" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                                <Button  Style="{DynamicResource closeButtonStyle}"  
-                                                     Width="20"
-                                                     Height="20"
-                                                     BorderBrush="#52349c"                           
-                                                     Background="Transparent"
-                                                     BorderThickness="3"                           
-                                                     HorizontalAlignment="Right"
-                                                     VerticalAlignment="Center"
-                                                     Margin="0,0,10,0">
-
-                                                </Button>
+                                        <StackPanel Orientation="Horizontal">                                            
                                             <Button  Style="{DynamicResource closeButtonStyle}"  
                                                      Width="20"
                                                      Height="20"
@@ -439,7 +423,6 @@
                                                      Margin="5 0 0 0"
                                                      Click="DeleteProductButton_Click">
                                             </Button>
-
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -509,25 +492,48 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Text="Avarage type cost" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
-                                    <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="TypeWithPriceListTextBox"  Foreground="{DynamicResource mainTextColor}" TextWrapping="Wrap" Grid.Row="1"/>
+                                    <DataGrid x:Name="TypePriceDataGrid" AutoGenerateColumns="False" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}"  RowStyle="{DynamicResource DataGridRowStyle1}">
+                                        <DataGrid.ColumnHeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="Background" Value="{DynamicResource ColumnNameBG}"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="Padding" Value="5"/>                                            
+                                            </Style>
+                                        </DataGrid.ColumnHeaderStyle>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Type" Binding="{Binding Key}" Width="250"/>
+                                            <DataGridTextColumn Header="Total Cost" Binding="{Binding Value}" Width="250"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </Grid>
                             </ScrollViewer>
                         </StackPanel>
 
-
+                        <StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
+                            <TextBlock Text="User Information" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                            <TextBlock Text="Name: " />
+                            <TextBlock Text="{Binding UserName}" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="Surname: " />
+                            <TextBlock Text="{Binding UserSurname}" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <TextBlock Text="Warehouse Name: " />
+                            <TextBlock Text="{Binding WarehouseName}" FontWeight="Bold" Margin="0,0,0,5"/>
+                            <Button Style="{DynamicResource featureButtonStyle}" Content="Edit" Click="EditUser_Click" Margin="0,10,0,0" HorizontalAlignment="Center" Width="100" Height="50"/>
+                            <Popup x:Name="EditUserPopup" Placement="Center">
+                                <Border  Width="300" Height="250" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource popupBGColor}">
+                                    <StackPanel>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditSurnameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditWarehouseNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Close" Click="UpdateUserDetails_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                    Style="{DynamicResource featureButtonStyle}"
-                    Height="50"
-                    Width="100"
-                    HorizontalAlignment="Right"
-                    Content="Delete"
-                    Margin="700 0 25 0"
-                    Foreground="White"
-                    Click="DeleteSelectedProductsButton_Click">
-                    </Button>
+                <StackPanel Orientation="Horizontal">                  
                     
                     <Button
                     Style="{DynamicResource featureButtonStyle}"
@@ -535,7 +541,7 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Content=" + Add"
-                    Margin="0 0 25 0"
+                    Margin="700 0 25 0"
                     Foreground="White"
                     Click="AddButton_Click">
                     </Button>
@@ -550,12 +556,23 @@
                     Foreground="White"
                     Click="AddFromFileButton_Click">
                     </Button>
+
+                    <Button
+                        Style="{DynamicResource featureButtonStyle}"
+                        Height="50"
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        Content="Export"
+                        Margin="0 0 25 0"
+                        Foreground="White"
+                        Click="ExportProductsToFileButton_Click">
+                    </Button>
                 </StackPanel>
 
 
                 <Popup x:Name="AddProductPopup" Placement="Center">
-                    <Border  Width="300" Height="320" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
-                        <Grid Background="{DynamicResource popupBGColor}" Width="300" Height="320">
+                    <Border  Width="300" Height="360" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
+                        <Grid Background="{DynamicResource popupBGColor}" Width="300" Height="360" Margin="2">
                             <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -563,32 +580,25 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>                            
+                            <RowDefinition Height="Auto"/>                         
                         </Grid.RowDefinitions>
 
                             <!-- Product Name -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0">
-                                <TextBlock Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="ProductNameTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200"/>
-                            </StackPanel>
+                            <TextBlock Text="Name:" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="0" Margin=" 5 0 5 0"/>
+                            <TextBox Style="{DynamicResource TextBoxStyle1}" Height="40" Width="260" FontSize="18" x:Name="ProductNameTextBox" HorizontalAlignment="Center" Grid.Row="0"/>
 
-                            <!-- Price -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="1">
-                                <TextBlock Text="Price:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="PriceTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200"/>
-                            </StackPanel>
+                            <TextBlock Text="Price:" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="1" Margin=" 5 0 5 0"/>
+                            <TextBox Style="{DynamicResource TextBoxStyle1}" Height="40" Width="260" FontSize="18" x:Name="PriceTextBox" HorizontalAlignment="Center" Grid.Row="1"/>
+                            
 
                             <!-- ManufactureDate -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="2">
-                                <TextBlock Text="Manufacture Date:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <DatePicker x:Name="ManufactureDatePicker" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                            </StackPanel>
+                            <TextBlock Text="Manufacture Date:" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="2" Margin=" 5 0 5 0"/>
+                            <DatePicker x:Name="ManufactureDatePicker" Width="260" Margin="10 20 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2"/>
+   
 
                             <!-- Type -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="3">
-                                <TextBlock  Text="Type:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black" />
-                                <ComboBox x:Name="TypeComboBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200">
+                            <TextBlock  Text="Type:" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="3" Margin=" 5 0 5 0"/>
+                            <ComboBox x:Name="TypeComboBox" Width="260" Margin="10 20 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="3">
                                     <ComboBoxItem Content="Electronics"/>
                                     <ComboBoxItem Content="Clothing"/>
                                     <ComboBoxItem Content="Food"/>
@@ -602,28 +612,18 @@
                                     <ComboBoxItem Content="Automotive"/>
                                     <ComboBoxItem Content="Home and Garden"/>                                   
                                 </ComboBox>
-                            </StackPanel>
 
                             <!-- Quantity -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="4">
-                                <TextBlock Text="Quantity:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="QuantityTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="200" />
-                            </StackPanel>
+                            <TextBlock Text="Quantity:" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="4" Margin=" 5 0 5 0"/>
+                            <TextBox Style="{DynamicResource TextBoxStyle1}" Height="40" Width="260" FontSize="18" x:Name="QuantityTextBox" HorizontalAlignment="Center" Grid.Row="4" />
+                            
 
                             <!-- ShelfLife -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="5">
-                                <TextBlock Text="Shelf Life Date:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black"/>
-                                <DatePicker x:Name="ShelfLifeDatePicker" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                            </StackPanel>
-
-                            <!-- Character -->
-                            <StackPanel Orientation="Horizontal" Margin="10 15 10 0" Grid.Row="6">
-                                <TextBlock Text="Character:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black" />
-                                <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="CharacterTextBox" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Stretch" MinWidth="200"/>
-                            </StackPanel>
-
+                            <TextBlock Text="Shelf Life Date:"  VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" Grid.Row="5" Margin=" 5 0 5 0"/>
+                            <DatePicker x:Name="ShelfLifeDatePicker" Width="260" Margin="10 20 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="5"/>
+                          
                             <!-- Add Button -->
-                        <StackPanel Orientation="Horizontal" Grid.Row="7">
+                        <StackPanel Orientation="Horizontal" Grid.Row="6">
                             <Button Style="{DynamicResource featureButtonStyle}" Foreground="#ffffff" Content="Cancel" Height="40" Width="100" Click="AddProductCancel_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin=" 30 10 10 10"/>                            
                             <Button Style="{DynamicResource featureButtonStyle}" Foreground="#ffffff" Content="Add" Height="40" Width="100" Click="AddProductConfirm_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10"/>
                         </StackPanel>
@@ -632,7 +632,7 @@
                     </Border>
                 </Popup>
 
-                <Popup x:Name="SelectMounthPopup" Placement="Center">
+                <Popup x:Name="SelectMonthPopup" Placement="Center">
                     <Border  Width="300" Height="150" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
                         <Grid Background="{DynamicResource popupBGColor}" Width="300" Height="150">
                             <Grid.RowDefinitions>
@@ -640,9 +640,33 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Name:" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource mainTextColor}" FontSize="14" FontFamily="Arial Black" Margin="10"/>
-                            <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="MounthTextBox" Margin="10" Grid.Row="1"/>
-                            <Button Style="{DynamicResource featureButtonStyle}" Width="100" Height="50" Content="Show" Click="ShowProductsByExpiryMonthButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                            <TextBlock Text="Select Month:" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource mainTextColor}" FontSize="20" FontFamily="Arial Black" Margin="0 15 0 15"/>
+                            <ComboBox x:Name="MonthComboBox" SelectionChanged="MonthComboBox_SelectionChanged" Width="120" Grid.Row="1" Background="{DynamicResource upBarColor}">
+                                <ComboBox.Resources>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="Background" Value="{DynamicResource upBarColor}" />
+                                    </Style>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="Background" Value="{DynamicResource upBarColor}" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </ComboBox.Resources>
+                                <ComboBoxItem Content="January" Tag="1"/>
+                                <ComboBoxItem Content="February" Tag="2"/>
+                                <ComboBoxItem Content="March" Tag="3"/>
+                                <ComboBoxItem Content="April" Tag="4"/>
+                                <ComboBoxItem Content="May" Tag="5"/>
+                                <ComboBoxItem Content="June" Tag="6"/>
+                                <ComboBoxItem Content="July" Tag="7"/>
+                                <ComboBoxItem Content="August" Tag="8"/>
+                                <ComboBoxItem Content="September" Tag="9"/>
+                                <ComboBoxItem Content="October" Tag="10"/>
+                                <ComboBoxItem Content="November" Tag="11"/>
+                                <ComboBoxItem Content="December" Tag="12"/>
+                            </ComboBox>
+                            <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Show" Click="ShowProductsByExpiryMonthButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
                         </Grid>
                     </Border>
                 </Popup>
@@ -658,26 +682,26 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Min:" Margin="10"/>
+                            <TextBlock Text="Min:" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="20" Foreground="{DynamicResource mainTextColor}" Margin="0 15 0 15"/>
                             <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="MinPriceTextBox" Margin="10" Grid.Row="1"/>
-                            <TextBlock Text="Min:" Margin="10" Grid.Row="2"/>
+                            <TextBlock Text="Max:" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="20" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15" Grid.Row="2"/>
                             <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="MaxPriceTextBox" Margin="10" Grid.Row="3"/>
-                            <Button Style="{DynamicResource featureButtonStyle}" Width="100" Height="50" Content="Show" Click="ShowProductsPriceInRangeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="4"/>
+                            <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Show" Click="ShowProductsPriceInRangeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="4"/>
                         </Grid>
                     </Border>
                 </Popup>
 
                 <Popup x:Name="ShortestAverageStorageTermPopup" Placement="Center">
-                    <Border  Width="300" Height="150" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
-                        <Grid Background="{DynamicResource popupBGColor}" Width="300" Height="150">
+                    <Border  Width="500" Height="150" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource upBarColor}">
+                        <Grid Background="{DynamicResource popupBGColor}" Width="500" Height="150">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="ShortestAverageStorageTerm:" Margin="10"/>
-                            <TextBlock x:Name="ShortestAverageStorageTermTextBlock" Text=" " Margin="10" Grid.Row="1"/>
-                            <Button Style="{DynamicResource featureButtonStyle}" Width="100" Height="50" Content="Close" Click="CloseShortestAverageStorageTermPopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                            <TextBlock Text="Shortest Average Storage Term:" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="20" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
+                            <TextBlock Foreground="{DynamicResource mainTextColor}" FontSize="16" x:Name="ShortestAverageStorageTermTextBlock" Text=" " Margin="10" Grid.Row="1"/>
+                            <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Close" Click="CloseShortestAverageStorageTermPopupButton_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
                         </Grid>
                     </Border>
                 </Popup>                

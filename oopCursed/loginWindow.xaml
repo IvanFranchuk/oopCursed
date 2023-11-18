@@ -17,7 +17,7 @@
             <ImageBrush ImageSource="/light_login_bg_croped.png"/>
         </Border.Background>
         <Grid>
-            <Border Height="400" Width="400" Background="{DynamicResource mainColor}" 
+            <Border Height="350" Width="400" Background="{DynamicResource mainColor}" 
                 BorderBrush="{DynamicResource upBarColor}" BorderThickness="5" CornerRadius="20">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
                         Content="Log in" FontSize="22" Click="loginButton_Click" Foreground="White"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2"/>
 
-                    <Button Height="50" Width="150" Content="Sing up" Click="OpenSingUpWindow_Click" Margin="0, 10, 0, 0"
+                    <Button Style="{DynamicResource featureButtonStyle}" Height="35" Width="90" Foreground="White" Content="Sing up" Click="OpenSingUpWindow_Click" Margin="0, 10, 0, 0"
                         HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3"/>
                 </Grid>
             </Border>

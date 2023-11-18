@@ -97,28 +97,60 @@ namespace oopCursed
             }
         }
 
+        private void ShowAllProductsButton_Click(object sender, RoutedEventArgs e)
+        {
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;            
+            ProductDataGrid.ItemsSource = productList.Products;
+            ProductListPanel.Visibility = Visibility.Visible;
+        }
+
         //|=============================================| TASK |=============================================|
 
         // 1) |=================| SHOW PODUCTS IN SELECTED MOUNTH |=================|
         private void SelectMonthButton_Click(object sender, RoutedEventArgs e)
         {
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             ProductListPanel.Visibility = Visibility.Visible;
-            SelectMounthPopup.IsOpen = true;
+            SelectMonthPopup.IsOpen = true;
+        }
+        
+        private void MonthComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MonthComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                int selectedMonth = int.Parse(selectedItem.Tag.ToString());
+            }
         }
         private void ShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e)
         {
-            int selectedMonth = int.Parse(MounthTextBox.Text);
-            var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
-            
-            ProductDataGrid.ItemsSource = expiringProducts;
-            SelectMounthPopup.IsOpen = false;
-            MounthTextBox.Text = "";
+            if (MonthComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                int selectedMonth = int.Parse(selectedItem.Tag.ToString());
+                var expiringProducts = productList.GetProductsExpiringInMonth(selectedMonth);
+
+                ProductDataGrid.ItemsSource = expiringProducts;
+                SelectMonthPopup.IsOpen = false;
+            }
+            else
+            {
+                MessageBox.Show("Please select a month.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // 2) |=================| SHOW PODUCTS IN PRICE RANGE |=================|
 
         private void SelectPriceRangeButton_Click(object sender, RoutedEventArgs e)
         {
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             ProductListPanel.Visibility = Visibility.Visible;
             SelectPriceRangePopup.IsOpen = true;
         }
@@ -147,11 +179,15 @@ namespace oopCursed
         // 3) |=================| SHORTEST STORAGE TIME |=================|
         private void OpenShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
         {
-            ProductListPanel.Visibility = Visibility.Visible;
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductDataGrid.ItemsSource = productList.Products;
             string ShortestAvarageStorageTerm = productList.GetTypeWithShortestAverageStorageTerm();
             ShortestAverageStorageTermPopup.IsOpen = true;
-
             ShortestAverageStorageTermTextBlock.Text = ShortestAvarageStorageTerm;
+            ProductListPanel.Visibility = Visibility.Visible;
         }
 
         private void CloseShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
@@ -165,17 +201,14 @@ namespace oopCursed
             ProductListPanel.Visibility = Visibility.Collapsed;
             GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+
+            List<KeyValuePair<string, decimal?>> TypeList = productList.GetTotalCostByTypeSorted();
+            TypePriceDataGrid.ItemsSource = TypeList;
 
             TypePriceResultPanel.Visibility = Visibility.Visible;
-            TypeWithPriceListTextBox.Text = string.Empty;
-            List<KeyValuePair<string, decimal?>> TypeList = productList.GetTotalCostByTypeSorted();
-            StringBuilder TypeListSB = new StringBuilder();
-            foreach (var item in TypeList)
-            {
-                TypeListSB.AppendLine($"Type: {item.Key}, Total Cost: {item.Value}");
-            }
-            TypeWithPriceListTextBox.Text = TypeListSB.ToString();
         }
+
 
         //5) |=================| SAME MANAFACTURE DATE + SAPARATED BY TYPES  |=================|
         private void GroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
@@ -183,6 +216,8 @@ namespace oopCursed
             ProductListPanel.Visibility = Visibility.Collapsed;
             GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+
 
             var productsByManufactureDateAndType = productList.GetProductsByManufactureDateAndType();
 
@@ -211,6 +246,8 @@ namespace oopCursed
             ProductListPanel.Visibility = Visibility.Collapsed;
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
             TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+
             GroupByPriceResultTextBlock.Text = "";
 
             var productsByPrice = productList.GetProductsByPrice();
@@ -231,11 +268,14 @@ namespace oopCursed
             GroupByPriceResultPanel.Visibility = Visibility.Visible;
         }
 
+
+
         private void ExitGroupByTypeAndDate_Click(object sender, RoutedEventArgs e)
         {
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
-            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
             ProductListPanel.Visibility = Visibility.Visible;
         }
 
@@ -268,7 +308,6 @@ namespace oopCursed
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
             QuantityTextBox.Text = "";
-            CharacterTextBox.Text = "";
             ManufactureDatePicker.SelectedDate = DateTime.Now;
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
             TypeComboBox.SelectedIndex = -1;
@@ -300,16 +339,14 @@ namespace oopCursed
                 return;
             }
 
-            string character = CharacterTextBox.Text;
 
-            productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife, character));
+            productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife));
 
             AddProductPopup.IsOpen = false;
 
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
             QuantityTextBox.Text = "";
-            CharacterTextBox.Text = "";
             ManufactureDatePicker.SelectedDate = DateTime.Now;
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
             TypeComboBox.SelectedIndex = -1;
@@ -323,6 +360,7 @@ namespace oopCursed
                 if (ProductDataGrid.SelectedItem != null && ProductDataGrid.SelectedItem is DB.Product selectedProduct)
                 {
                     productList.RemoveProduct(selectedProduct);
+                    ProductDataGrid.ItemsSource = productList.Products;
                 }
                 else
                 {
@@ -331,18 +369,11 @@ namespace oopCursed
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting product: {ex.Message}");
+                MessageBox.Show($"Error deleting product: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-
         // |=================| DELETE CHECKED PRODUCT |=================|
-        private void DeleteSelectedProductsButton_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
-
 
 
         // |=================| READ FROM FILE |=================|
@@ -363,6 +394,87 @@ namespace oopCursed
             }
            
         }
+        // |=================| EXPORT TO FILE |=================|
+        private void ExportProductsToFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                productList.WriteProductsToFile(filePath);
+                Console.WriteLine($"Вибраний файл: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }
+        }
 
+        // |==========================| USER INFO |=========================|
+        private void UserInfoButton_Click(object sender, RoutedEventArgs e)
+        {            
+            ProductListPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Visible;
+        }
+
+        private void EditUser_Click(object sender, RoutedEventArgs e)
+        {
+            // Display the user edit popup
+            EditUserPopup.IsOpen = true;
+
+            // Set the initial values in the textboxes for editing
+            EditNameTextBox.Text = UserSession.UserName;
+            EditSurnameTextBox.Text = UserSession.UserSurname;
+            EditWarehouseNameTextBox.Text = GetWarehouseName(UserSession.WarehouseId);
+
+        }
+        private string GetWarehouseName(int warehouseId)
+        {
+            using (var context = new ProductManagerContext())
+            {
+                var warehouse = context.Warehouses.FirstOrDefault(w => w.Id == warehouseId);
+                return warehouse?.Name;
+            }
+        }
+
+        private void UpdateUserDetails_Click(object sender, RoutedEventArgs e)
+        {
+            using (var context = new ProductManagerContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Id == UserSession.UserId);
+                var warehouse = context.Warehouses.FirstOrDefault(w => w.Userid == UserSession.UserId);
+
+                if (user != null && warehouse != null)
+                {
+                    user.Name = EditNameTextBox.Text;
+                    user.Surname = EditSurnameTextBox.Text;
+                    warehouse.Name = EditWarehouseNameTextBox.Text;
+
+                    context.SaveChanges();
+                    MessageBox.Show("User details updated successfully.");
+
+                    UserSession.UserName = user.Name;
+                    UserSession.UserSurname = user.Surname;
+
+                    // Оновлення інтерфейсу з новими даними користувача
+                    Name.Text = UserSession.UserName;
+                    Surname.Text = UserSession.UserSurname;
+                    // Оновлення назви складу користувача на інтерфейсі
+                    WarehouseName.Text = GetWarehouseName(UserSession.WarehouseId);
+                }
+                else
+                {
+                    MessageBox.Show("User not found or warehouse not set.");
+                }
+            }
+
+            // Закриття вікна редагування після оновлення
+            EditUserPopup.IsOpen = false;
+        }
     }
 }

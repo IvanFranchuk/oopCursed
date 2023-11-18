@@ -12,20 +12,20 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
     <Border
-                BorderBrush="#2B304D"
-                CornerRadius="20">
+        BorderBrush="#2B304D"
+        CornerRadius="20">
         <Border.Background>
             <ImageBrush ImageSource="/light_login_bg_croped.png"/>
         </Border.Background>
         <Grid>
             <Border
-    Height="600"
+    Height="500"
     Width="400"
     Background="{DynamicResource mainColor}" 
     BorderBrush="{DynamicResource upBarColor}"
     BorderThickness="5"
     CornerRadius="20">
-                <Grid>
+                <Grid Margin="0 15 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

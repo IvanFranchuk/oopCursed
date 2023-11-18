@@ -255,5 +255,44 @@ namespace oopCursed.DB
         }
 
 
+        //add feature
+        public void SortProductsByName()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderBy(p => p.Name));
+        }
+
+        public void SortProductsByQuantity()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderBy(p => p.Quantity));
+        }
+
+        public void SortProductsByPrice()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderBy(p => p.Price));
+        }
+
+        public void SortProductsByType()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderBy(p => p.Type));
+        }
+        public void SortProductsByNameDescending()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderByDescending(p => p.Name));
+        }
+
+        public void SortProductsByTypeDescending()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderByDescending(p => p.Type));
+        }
+
+        public void SortProductsByPriceDescending()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderByDescending(p => p.Price));
+        }
+
+        public void SortProductsByQuantityDescending()
+        {
+            Products = new ObservableCollection<Product>(Products.OrderByDescending(p => p.Quantity));
+        }
     }
 }

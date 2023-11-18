@@ -9,8 +9,20 @@
 
   <ItemGroup>
     <None Remove="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <None Remove="img\Automotive.png" />
+    <None Remove="img\Book.png" />
+    <None Remove="img\Clothing.png" />
+    <None Remove="img\Cosmetics.png" />
+    <None Remove="img\Electronics.png" />
+    <None Remove="img\Food.png" />
+    <None Remove="img\Furniture.png" />
+    <None Remove="img\Garden.png" />
+    <None Remove="img\Jewelry.png" />
     <None Remove="img\moon.png" />
+    <None Remove="img\Sport.png" />
     <None Remove="img\sun.png" />
+    <None Remove="img\Tool.png" />
+    <None Remove="img\Toy.png" />
     <None Remove="light_login_bg_croped.png" />
   </ItemGroup>
 
@@ -34,8 +46,20 @@
 
   <ItemGroup>
     <Resource Include="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <Resource Include="img\Automotive.png" />
+    <Resource Include="img\Book.png" />
+    <Resource Include="img\Clothing.png" />
+    <Resource Include="img\Cosmetics.png" />
+    <Resource Include="img\Electronics.png" />
+    <Resource Include="img\Food.png" />
+    <Resource Include="img\Furniture.png" />
+    <Resource Include="img\Garden.png" />
+    <Resource Include="img\Jewelry.png" />
     <Resource Include="img\moon.png" />
+    <Resource Include="img\Sport.png" />
     <Resource Include="img\sun.png" />
+    <Resource Include="img\Tool.png" />
+    <Resource Include="img\Toy.png" />
     <Resource Include="light_login_bg_croped.png" />
   </ItemGroup>
 

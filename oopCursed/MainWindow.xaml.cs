@@ -31,7 +31,9 @@ namespace oopCursed
     public partial class MainWindow : Window
     {
         private ProductList productList;
+        public bool isDescending = false;
         public Dictionary<DateTime, Dictionary<string, List<DB.Product>>> GroupedProducts { get; set; }
+        
 
         public MainWindow()
         {
@@ -60,6 +62,7 @@ namespace oopCursed
             AppTheme.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
         }
 
+        
         //window control
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -373,8 +376,6 @@ namespace oopCursed
             }
         }
 
-        // |=================| DELETE CHECKED PRODUCT |=================|
-
 
         // |=================| READ FROM FILE |=================|
         private void AddFromFileButton_Click(object sender, RoutedEventArgs e)
@@ -410,6 +411,82 @@ namespace oopCursed
             {
                 Console.WriteLine("Користувач скасував вибір файлу.");
             }
+        }
+        //sort direction
+        private void AscendingSorttb_Checked(object sender, RoutedEventArgs e)
+        {
+            isDescending = false;
+        }
+        private void DescendingSorttb_Checked(object sender, RoutedEventArgs e)
+        {
+            isDescending = true;
+        }
+        // |==========================| SORTING |=========================|
+        private void SortByNameButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isDescending)
+            {
+                productList.SortProductsByNameDescending();
+            }
+            else
+            {
+                productList.SortProductsByName();
+            }
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductDataGrid.ItemsSource = productList.Products;
+            ProductListPanel.Visibility = Visibility.Visible;
+        }
+        private void SortByTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isDescending) {
+                productList.SortProductsByTypeDescending();
+            }
+            else {
+                productList.SortProductsByType();
+            }
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductDataGrid.ItemsSource = productList.Products;
+            ProductListPanel.Visibility = Visibility.Visible;
+        }
+        private void SortByPriceButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isDescending)
+            {
+                productList.SortProductsByPriceDescending();
+            }
+            else
+            {
+                productList.SortProductsByPrice();
+            }
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductDataGrid.ItemsSource = productList.Products;
+            ProductListPanel.Visibility = Visibility.Visible;
+        }
+        private void SortByQuantityButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isDescending)
+            {
+                productList.SortProductsByQuantityDescending();
+            }
+            else
+            {
+                productList.SortProductsByQuantity();
+            }
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductDataGrid.ItemsSource = productList.Products;
+            ProductListPanel.Visibility = Visibility.Visible;
         }
 
         // |==========================| USER INFO |=========================|

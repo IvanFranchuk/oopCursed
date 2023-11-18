@@ -279,32 +279,54 @@
                             Foreground="White"
                             Content="Sort by Name"
                             Height="90"
-                            Width="240"
+                            Width="220"
                             Margin="20,10,0,10" 
-                            FontSize="18" FontWeight="Bold"/>
+                            FontSize="18" FontWeight="Bold"
+                            Click="SortByNameButton_Click"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
                             Content="Sort by Price"
                             Height="90"
-                            Width="240"
+                            Width="220"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
-                            />
+                            Click="SortByPriceButton_Click"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
                             Content="Sort by Type"
                             Height="90"
-                            Width="240"
+                            Width="220"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
-                            />
+                            Click="SortByTypeButton_Click"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
                             Content="Sort by Quantity"
                             Height="90"
-                            Width="240"
+                            Width="220"
                             Margin="20,10,0,10" 
                             FontSize="18" 
-                            FontWeight="Bold">
+                            FontWeight="Bold"
+                            Click="SortByQuantityButton_Click">
                     </Button>
+                    <ToggleButton Height="30" Width="30" Margin="10,0,0,0" x:Name="SortTypeToggleButton" BorderThickness="0" Checked="AscendingSorttb_Checked" Unchecked="DescendingSorttb_Checked">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Grid Background="blue">
+                                                <Image x:Name="Icon" Source="pack://application:,,,/img/sun.png" Width="24" Height="24"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="Icon" Property="Source" Value="pack://application:,,,/img/moon.png"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
 
 
                 </StackPanel>
@@ -384,7 +406,62 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Border.Style>
-                                                        </Border>
+                                                        <Image Height="15" Width="15">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Electronics">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Electronics.png" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Clothing">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Clothing.png" />
+                                                                            <!-- Колір для Clothing -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Food">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Food.png" />
+                                                                            <!-- Колір для Food -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Books">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Book.png" />
+                                                                            <!-- Колір для Books -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Cosmetics">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Cosmetics.png" />
+                                                                            <!-- Колір для Cosmetics -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Furniture">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Furniture.png" />
+                                                                            <!-- Колір для Furniture -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Toys">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Toy.png" />
+                                                                            <!-- Колір для Toys -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Sporting Goods">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Sport.png" />
+                                                                            <!-- Колір для Sporting Goods -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Tools">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Tool.png" />
+                                                                            <!-- Колір для Tools -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Jewelry">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Jewelry.png" />
+                                                                            <!-- Колір для Jewelry -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Automotive">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Automotive.png" />
+                                                                            <!-- Колір для Automotive -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Home and Garden">
+                                                                            <Setter Property="Source" Value="pack://application:,,,/img/Garden.png" />
+                                                                            <!-- Колір для Home and Garden -->
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                    </Border>
                                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                                                 </StackPanel>
                                     </DataTemplate>

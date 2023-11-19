@@ -145,6 +145,10 @@ namespace oopCursed
                 MessageBox.Show("Please select a month.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void CancelShowProductsByExpiryMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectMonthPopup.IsOpen = false;
+        }
 
         // 2) |=================| SHOW PODUCTS IN PRICE RANGE |=================|
 
@@ -162,25 +166,38 @@ namespace oopCursed
             if (!int.TryParse(MinPriceTextBox.Text, out int minPrice))
             {
                 SelectPriceRangePopup.IsOpen = false;
-                MessageBox.Show("Будь ласка, введіть числове значення для мінімальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a numeric value for the minimum price.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MinPriceTextBox.Text = "";
+                MaxPriceTextBox.Text = "";
                 return;
             }
 
             if (!int.TryParse(MaxPriceTextBox.Text, out int maxPrice))
             {
                 SelectPriceRangePopup.IsOpen = false;
-                MessageBox.Show("Будь ласка, введіть числове значення для максимальної ціни.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a numeric value for the maximum price.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MinPriceTextBox.Text = "";
+                MaxPriceTextBox.Text = "";
                 return;
             }
 
             var productsInPriceRange = productList.GetProductsInPriceRange(minPrice, maxPrice);
             SelectPriceRangePopup.IsOpen = false;
+            MinPriceTextBox.Text = "";
+            MaxPriceTextBox.Text = "";
 
             ProductDataGrid.ItemsSource = productsInPriceRange;
         }
 
-        // 3) |=================| SHORTEST STORAGE TIME |=================|
-        private void OpenShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
+        private void CancelShowProductsPriceInRangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectPriceRangePopup.IsOpen = false;
+            MinPriceTextBox.Text = "";
+            MaxPriceTextBox.Text = "";
+        }
+
+            // 3) |=================| SHORTEST STORAGE TIME |=================|
+            private void OpenShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
         {
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
             TypePriceResultPanel.Visibility = Visibility.Collapsed;
@@ -192,7 +209,6 @@ namespace oopCursed
             ShortestAverageStorageTermTextBlock.Text = ShortestAvarageStorageTerm;
             ProductListPanel.Visibility = Visibility.Visible;
         }
-
         private void CloseShortestAverageStorageTermPopupButton_Click(object sender, RoutedEventArgs e)
         {
             ShortestAverageStorageTermPopup.IsOpen = false;
@@ -319,34 +335,54 @@ namespace oopCursed
         private void AddProductConfirm_Click(object sender, RoutedEventArgs e)
         {
             string productName = ProductNameTextBox.Text;
-            int productPrice = int.Parse(PriceTextBox.Text);
-            string productType = (TypeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (TypeComboBox.SelectedItem == null)
+            string priceInput = PriceTextBox.Text;
+            string quantityInput = QuantityTextBox.Text;
+
+            // Checking if the price input is a valid non-negative integer
+            if (!int.TryParse(priceInput, out int productPrice) || productPrice < 0)
             {
-                MessageBox.Show("Будь ласка, оберіть тип товару.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("The price must be an integral integer.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            int productQuantity = int.Parse(QuantityTextBox.Text);
-            //DateTime manufactureDate = ManufactureDatePicker.SelectedDate ?? DateTime.Now;
-            //DateTime shelfLife = ShelfLifeDatePicker.SelectedDate ?? DateTime.Now;
+            // Checking if the quantity input is a valid non-negative integer
+            if (!int.TryParse(quantityInput, out int productQuantity) || productQuantity < 0)
+            {
+                MessageBox.Show("The quantity must be a non-negative integer.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string productType = (TypeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (TypeComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an item type.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Validating and parsing manufacture and shelf life dates
             if (!DateTime.TryParse(ManufactureDatePicker.Text, out DateTime manufactureDate))
             {
-                MessageBox.Show("Будь ласка, введіть коректну дату виготовлення.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid manufacturing date.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!DateTime.TryParse(ShelfLifeDatePicker.Text, out DateTime shelfLife))
             {
-                MessageBox.Show("Будь ласка, введіть коректний термін придатності.", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid expiration date.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (shelfLife <= manufactureDate)
+            {
+                MessageBox.Show("The shelf life must be greater than the date of manufacture.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-
             productList.AddProduct(new DB.Product(0, productName, productPrice, manufactureDate, productType, productQuantity, shelfLife));
 
+            // Closing the popup after adding the product
             AddProductPopup.IsOpen = false;
 
+            // Clearing input fields and resetting selection
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
             QuantityTextBox.Text = "";
@@ -354,6 +390,8 @@ namespace oopCursed
             ShelfLifeDatePicker.SelectedDate = DateTime.Now;
             TypeComboBox.SelectedIndex = -1;
         }
+
+
 
         // |=================| DELETE PRODUCT |=================|
         private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
@@ -500,19 +538,7 @@ namespace oopCursed
             EditNameTextBox.Text = UserSession.UserName;
             EditSurnameTextBox.Text = UserSession.UserSurname;
             EditWarehouseNameTextBox.Text = GetWarehouseName(UserSession.WarehouseId);
-        }
-
-        private void EditUser_Click(object sender, RoutedEventArgs e)
-        {
-            // Display the user edit popup
-            //EditUserPopup.IsOpen = true;
-
-            // Set the initial values in the textboxes for editing
-            EditNameTextBox.Text = UserSession.UserName;
-            EditSurnameTextBox.Text = UserSession.UserSurname;
-            EditWarehouseNameTextBox.Text = GetWarehouseName(UserSession.WarehouseId);
-
-        }
+        }        
         private string GetWarehouseName(int warehouseId)
         {
             using (var context = new ProductManagerContext())
@@ -541,10 +567,8 @@ namespace oopCursed
                     UserSession.UserName = user.Name;
                     UserSession.UserSurname = user.Surname;
 
-                    // Оновлення інтерфейсу з новими даними користувача
                     Name.Text = UserSession.UserName;
                     Surname.Text = UserSession.UserSurname;
-                    // Оновлення назви складу користувача на інтерфейсі
                     WarehouseName.Text = GetWarehouseName(UserSession.WarehouseId);
                 }
                 else
@@ -552,9 +576,15 @@ namespace oopCursed
                     MessageBox.Show("User not found or warehouse not set.");
                 }
             }
+        }
 
-            // Закриття вікна редагування після оновлення
-            //EditUserPopup.IsOpen = false;
+        private void CancelUserEdit_Click(object sender, RoutedEventArgs e)
+        {
+            GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
+            TypePriceResultPanel.Visibility = Visibility.Collapsed;
+            UserInfoPanel.Visibility = Visibility.Collapsed;
+            GroupByPriceResultPanel.Visibility = Visibility.Collapsed;
+            ProductListPanel.Visibility = Visibility.Visible;
         }
     }
 }

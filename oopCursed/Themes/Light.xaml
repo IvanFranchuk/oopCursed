@@ -19,6 +19,8 @@
 
     <SolidColorBrush Color="#2B304D" x:Key="UserInfoTextForeground"/>
 
+    <SolidColorBrush Color="#2B304D" x:Key="ToggleBG"/>
+
 
 
 

@@ -415,11 +415,11 @@ namespace oopCursed
         //sort direction
         private void AscendingSorttb_Checked(object sender, RoutedEventArgs e)
         {
-            isDescending = false;
+            isDescending = true;
         }
         private void DescendingSorttb_Checked(object sender, RoutedEventArgs e)
         {
-            isDescending = true;
+            isDescending = false;
         }
         // |==========================| SORTING |=========================|
         private void SortByNameButton_Click(object sender, RoutedEventArgs e)
@@ -497,12 +497,15 @@ namespace oopCursed
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
             TypePriceResultPanel.Visibility = Visibility.Collapsed;
             UserInfoPanel.Visibility = Visibility.Visible;
+            EditNameTextBox.Text = UserSession.UserName;
+            EditSurnameTextBox.Text = UserSession.UserSurname;
+            EditWarehouseNameTextBox.Text = GetWarehouseName(UserSession.WarehouseId);
         }
 
         private void EditUser_Click(object sender, RoutedEventArgs e)
         {
             // Display the user edit popup
-            EditUserPopup.IsOpen = true;
+            //EditUserPopup.IsOpen = true;
 
             // Set the initial values in the textboxes for editing
             EditNameTextBox.Text = UserSession.UserName;
@@ -551,7 +554,7 @@ namespace oopCursed
             }
 
             // Закриття вікна редагування після оновлення
-            EditUserPopup.IsOpen = false;
+            //EditUserPopup.IsOpen = false;
         }
     }
 }

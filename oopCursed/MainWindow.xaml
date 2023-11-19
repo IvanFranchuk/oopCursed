@@ -236,23 +236,26 @@
                         <StackPanel>
                             <TextBlock x:Name="Surname"
                                        Text="Surname"
-                                       Width="160"
+                                       Width="150"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="right"
                                        Foreground="{DynamicResource mainTextColor}"
                                        FontSize="20"
                                        FontFamily="Arial Black"
-                                       Margin="0,25,0,0"/>
+                                       Margin="10,25,0,0"/>
                             <TextBlock x:Name="Name"
                                        Text="Name"
-                                       Width="160"
+                                       Width="150"
                                        VerticalAlignment="Top"
                                        HorizontalAlignment="right"
                                        Foreground="{DynamicResource mainTextColor}"
                                        FontSize="20"
+                                        Margin="10,0,0,0"
                                        FontFamily="Arial Black"/>
                             <Button
-                                Content="info"
+                                Content="Edit"
+                                FontFamily="Trebuchet MS"
+                                Padding="50 0 0 0"
                                 Height="30"
                                 Width="140"
                                 Foreground="white"
@@ -260,7 +263,6 @@
                                 BorderBrush="#2B304D"
                                 FontSize="20"
                                 HorizontalContentAlignment="Left"
-                                Padding="15"
                                 Margin="0,10,0,0"
                                 Click="UserInfoButton_Click"/>
                         </StackPanel>
@@ -279,7 +281,7 @@
                             Foreground="White"
                             Content="Sort by Name"
                             Height="90"
-                            Width="220"
+                            Width="215"
                             Margin="20,10,0,10" 
                             FontSize="18" FontWeight="Bold"
                             Click="SortByNameButton_Click"/>
@@ -287,38 +289,39 @@
                             Foreground="White"
                             Content="Sort by Price"
                             Height="90"
-                            Width="220"
+                            Width="215"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
                             Click="SortByPriceButton_Click"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
                             Content="Sort by Type"
                             Height="90"
-                            Width="220"
+                            Width="215"
                             Margin="20,10,0,10" FontSize="18" FontWeight="Bold"
                             Click="SortByTypeButton_Click"/>
                     <Button Style="{DynamicResource featureButtonStyle}"
                             Foreground="White"
                             Content="Sort by Quantity"
                             Height="90"
-                            Width="220"
+                            Width="215"
                             Margin="20,10,0,10" 
                             FontSize="18" 
                             FontWeight="Bold"
                             Click="SortByQuantityButton_Click">
                     </Button>
-                    <ToggleButton Height="30" Width="30" Margin="10,0,0,0" x:Name="SortTypeToggleButton" BorderThickness="0" Checked="AscendingSorttb_Checked" Unchecked="DescendingSorttb_Checked">
+                    <Border Height="90" Width="90" Margin="10,0,0,0" CornerRadius="20" Background="{DynamicResource ToggleBG}">
+                        <ToggleButton x:Name="SortTypeToggleButton" BorderThickness="0" Checked="AscendingSorttb_Checked" Unchecked="DescendingSorttb_Checked">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ToggleButton">
-                                            <Grid Background="blue">
-                                                <Image x:Name="Icon" Source="pack://application:,,,/img/sun.png" Width="24" Height="24"/>
+                                            <Grid Background="Transparent">
+                                                <Image x:Name="Icon" Source="pack://application:,,,/img/AscendingSort.png" Width="50" Height="50"/>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsChecked" Value="True">
-                                                    <Setter TargetName="Icon" Property="Source" Value="pack://application:,,,/img/moon.png"/>
+                                                    <Setter TargetName="Icon" Property="Source" Value="pack://application:,,,/img/DescendingSort.png"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -327,6 +330,7 @@
                             </Style>
                         </ToggleButton.Style>
                     </ToggleButton>
+                    </Border>
 
 
                 </StackPanel>
@@ -367,7 +371,7 @@
                                                                         <Setter Property="Background" Value="#89B9AD" />
                                                                         <!-- Колір для Food -->
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding Type}" Value="Books">
+                                                                    <DataTrigger Binding="{Binding Type}" Value="Book">
                                                                         <Setter Property="Background" Value="#B2533E" />
                                                                         <!-- Колір для Books -->
                                                                     </DataTrigger>
@@ -421,7 +425,7 @@
                                                                             <Setter Property="Source" Value="pack://application:,,,/img/Food.png" />
                                                                             <!-- Колір для Food -->
                                                                         </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Type}" Value="Books">
+                                                                        <DataTrigger Binding="{Binding Type}" Value="Book">
                                                                             <Setter Property="Source" Value="pack://application:,,,/img/Book.png" />
                                                                             <!-- Колір для Books -->
                                                                         </DataTrigger>
@@ -588,7 +592,7 @@
                             </ScrollViewer>
                         </StackPanel>
 
-                        <StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
+                        <!--StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
                             <TextBlock Text="User Information" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
                             <TextBlock Text="Name: " />
                             <TextBlock Text="{Binding UserName}" FontWeight="Bold" Margin="0,0,0,5"/>
@@ -607,6 +611,16 @@
                                     </StackPanel>
                                 </Border>
                             </Popup>
+                        </StackPanel-->
+                        <StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
+                                 <Border  Width="300" Height="250" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource popupBGColor}">
+                                    <StackPanel>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditSurnameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditWarehouseNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
+                                        <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Close" Click="UpdateUserDetails_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
+                                    </StackPanel>
+                                </Border>
                         </StackPanel>
                     </StackPanel>
                 </Border>

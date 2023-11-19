@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <None Remove="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <None Remove="img\AscendingSort.png" />
     <None Remove="img\Automotive.png" />
     <None Remove="img\Book.png" />
     <None Remove="img\Clothing.png" />
     <None Remove="img\Cosmetics.png" />
+    <None Remove="img\DescendingSort.png" />
     <None Remove="img\Electronics.png" />
     <None Remove="img\Food.png" />
     <None Remove="img\Furniture.png" />
@@ -46,10 +48,12 @@
 
   <ItemGroup>
     <Resource Include="4224381964_w640_h640_pes-patron-naduvnoj.webp" />
+    <Resource Include="img\AscendingSort.png" />
     <Resource Include="img\Automotive.png" />
     <Resource Include="img\Book.png" />
     <Resource Include="img\Clothing.png" />
     <Resource Include="img\Cosmetics.png" />
+    <Resource Include="img\DescendingSort.png" />
     <Resource Include="img\Electronics.png" />
     <Resource Include="img\Food.png" />
     <Resource Include="img\Furniture.png" />

@@ -18,6 +18,8 @@
 
     <SolidColorBrush Color="#eeeeee" x:Key="UserInfoTextForeground"/>
 
+    <SolidColorBrush Color="#eeaa74" x:Key="ToggleBG"/>
+
 
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">

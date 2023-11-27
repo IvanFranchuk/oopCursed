@@ -133,7 +133,7 @@
                         Click="ShowAllProductsButton_Click"
                         Margin="50,20,0,0" />
                 <Button Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="Price in range"
+                        Content="Show by price range"
                         x:Name="selectionSortButton"
                         Height="60"
                         Width="250"
@@ -146,7 +146,7 @@
                         Click="SelectPriceRangeButton_Click"
                         Margin="50,0,0,0" />
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="Show mounth"
+                        Content="Show by shelf time"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -170,7 +170,7 @@
                         Click="GroupProductsByPriceButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                        Content="GroupDateAndType"
+                        Content="Group by Date&amp;Type"
                         Height="60"
                         Width="250"
                         Foreground="{DynamicResource mainTextColor}"
@@ -194,7 +194,7 @@
                         Click="OpenShortestAverageStorageTermPopupButton_Click"
                         Margin="50,0,0,0"/>
                 <Button  Style="{DynamicResource roundedMenuButtonStyle}"
-                         Content="Type - price"
+                         Content="Sort type by price"
                          Height="60"
                          Width="250"
                          Foreground="{DynamicResource mainTextColor}"
@@ -215,22 +215,21 @@
                         Margin="0,77,0,0">
                     <StackPanel Orientation="Horizontal">
                         <Border
+                        Background="{DynamicResource upBarColor}"    
                         Width="120"
                         Height="120"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         Margin="10"
                         CornerRadius="90">
-                            <Border.Background>
-                                <ImageBrush ImageSource="/4224381964_w640_h640_pes-patron-naduvnoj.webp"/>
-                            </Border.Background>
+                            <Image Source="pack://application:,,,/img/User.png" Height="70" Width="70" />
 
-                            <TextBlock Text="pfp"
+                            <!--TextBlock Text="pfp"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             Foreground="White"
                             FontSize="20"
-                            FontFamily="Arial Black"/>
+                            FontFamily="Arial Black"/-->
                         </Border>
                         <StackPanel>
                             <TextBlock x:Name="Surname"
@@ -343,12 +342,12 @@
                     <StackPanel>
                         <StackPanel x:Name="ProductListPanel" Visibility="Visible">
                         <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}"
-                              Grid.Row="7"
+                              Grid.Row="6"
                                       Height="525"
                               x:Name="ProductDataGrid">
                         <DataGrid.Columns>                           
                             <!--DataGridTextColumn Header="#" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Id}"/-->
-                            <DataGridTemplateColumn Header="Product" IsReadOnly="True" Width="300">
+                            <DataGridTemplateColumn Header="Product" IsReadOnly="True" CanUserResize="False" Width="300">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -471,24 +470,24 @@
                                 </DataGridTemplateColumn.CellTemplate>
                                 
                             </DataGridTemplateColumn>
-                            
-                                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="80" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Type" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
-                                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="80" Binding="{Binding Quantity}"/>
-                               
-                                <DataGridTextColumn Header="Manufacture Date" IsReadOnly="True" Width="auto">
+
+                                    <DataGridTextColumn Header="Price" CanUserResize="False" IsReadOnly="True" Width="80" Binding="{Binding Price}"/>
+                                    <DataGridTextColumn Header="Type" CanUserResize="False" IsReadOnly="True" Width="*" Binding="{Binding Type}"/>
+                                    <DataGridTextColumn Header="Quantity" CanUserResize="False" IsReadOnly="True" Width="80" Binding="{Binding Quantity}"/>
+
+                                    <DataGridTextColumn Header="Manufacture Date" CanUserResize="False" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
-                                        <Binding Path="ManufactureDate" StringFormat="dd MMMM , yyyy"/>
+                                        <Binding Path="ManufactureDate"  StringFormat="dd MMMM , yyyy"/>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
-                                
-                                <DataGridTextColumn Header="ShelfLife" IsReadOnly="True" Width="auto">
+
+                                    <DataGridTextColumn Header="ShelfLife" CanUserResize="False" IsReadOnly="True" Width="auto">
                                     <DataGridTextColumn.Binding>
                                         <Binding Path="ShelfLife" StringFormat="dd MMMM , yyyy"/>
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
 
-                                <DataGridTemplateColumn Header="Remove" IsReadOnly="True" Width="auto">
+                                    <DataGridTemplateColumn Header="Remove" CanUserResize="False" IsReadOnly="True" Width="auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">                                            
@@ -521,16 +520,26 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     Margin="0 3 3 0"/>
-                            <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">
+                            <ScrollViewer Height="445" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">
                                 <Grid Background="Transparent">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Text="Products grouped by type and price" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
+                                    <TextBlock Text="Products grouped by type and date" FontFamily="Arial Black" HorizontalAlignment="Center" FontSize="24" Foreground="{DynamicResource mainTextColor}" Margin="0 0 0 15"/>
                                     <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="GroupByTypeAndDateResultTextBlock" TextWrapping="Wrap" Foreground="{DynamicResource GroupForeground}" Grid.Row="1" />
                                 </Grid>                                
                             </ScrollViewer>
+                            <Button
+                                Style="{DynamicResource featureButtonStyle}"
+                                Height="50"
+                                Width="100"
+                                HorizontalAlignment="Right"
+                                Content="Export"
+                                Margin="0 0 0 0"
+                                Foreground="White"
+                                Click="ExportGroupProductsByManufactureDateAndTypeButton_Click">
+                            </Button>
                         </StackPanel>
 
                         <StackPanel x:Name="GroupByPriceResultPanel" Visibility="Collapsed">
@@ -543,7 +552,7 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     Margin="0 3 3 0"/>
-                            <ScrollViewer Height="500" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">                                
+                            <ScrollViewer Height="445" VerticalScrollBarVisibility="Auto" Margin="10 10 0 0">                                
                                 <Grid Background="Transparent">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -553,6 +562,17 @@
                                     <TextBlock Style="{StaticResource TextBlockStyle}" x:Name="GroupByPriceResultTextBlock" TextWrapping="Wrap" Foreground="{DynamicResource GroupForeground}" Grid.Row="1"/>
                                 </Grid>
                             </ScrollViewer>
+                            <Button
+                                Style="{DynamicResource featureButtonStyle}"
+                                Height="50"
+                                Width="100"
+                                HorizontalAlignment="Right"
+                                Content="Export"
+                                Margin="0 0 0 0"
+                                Foreground="White"
+                                Click="ExportGroupProductsByPriceButton_Click">
+                            </Button>
+
                         </StackPanel>
 
                         <StackPanel x:Name="TypePriceResultPanel" Visibility="Collapsed">
@@ -591,28 +611,9 @@
                             </ScrollViewer>
                         </StackPanel>
 
-                        <!--StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
-                            <TextBlock Text="User Information" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
-                            <TextBlock Text="Name: " />
-                            <TextBlock Text="{Binding UserName}" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <TextBlock Text="Surname: " />
-                            <TextBlock Text="{Binding UserSurname}" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <TextBlock Text="Warehouse Name: " />
-                            <TextBlock Text="{Binding WarehouseName}" FontWeight="Bold" Margin="0,0,0,5"/>
-                            <Button Style="{DynamicResource featureButtonStyle}" Content="Edit" Click="EditUser_Click" Margin="0,10,0,0" HorizontalAlignment="Center" Width="100" Height="50"/>
-                            <Popup x:Name="EditUserPopup" Placement="Center">
-                                <Border  Width="300" Height="250" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource popupBGColor}">
-                                    <StackPanel>
-                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
-                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditSurnameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
-                                        <TextBox Style="{DynamicResource TextBoxStyle1}" FontSize="20" x:Name="EditWarehouseNameTextBox" Margin="10" Foreground="{DynamicResource UserInfoTextForeground}"/>
-                                        <Button Style="{DynamicResource featureButtonStyle}" Foreground="White" Width="100" Height="50" Content="Close" Click="UpdateUserDetails_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Grid.Row="2"/>
-                                    </StackPanel>
-                                </Border>
-                            </Popup>
-                        </StackPanel-->
+                        
                         <StackPanel x:Name="UserInfoPanel" Visibility="Collapsed">
-                                 <Border  Width="300" Height="350" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource popupBGColor}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                 <Border  Width="300" Height="350" CornerRadius="5" BorderThickness="2" BorderBrush="{DynamicResource popupBorderColor}" Background="{DynamicResource popupBGColor}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 100 0 0">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -649,9 +650,20 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Content=" + Add"
-                    Margin="700 0 25 0"
+                    Margin="450 0 25 0"
                     Foreground="White"
                     Click="AddButton_Click">
+                    </Button>     
+                    
+                    <Button
+                    Style="{DynamicResource featureButtonStyle}"
+                    Height="50"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Content="Import"
+                    Margin="0 0 25 0"
+                    Foreground="White"
+                    Click="AddFromFileButton_Click">
                     </Button>
 
                     <Button
@@ -659,10 +671,10 @@
                     Height="50"
                     Width="100"
                     HorizontalAlignment="Right"
-                    Content="Add from file"
+                    Content="Import by type"
                     Margin="0 0 25 0"
                     Foreground="White"
-                    Click="AddFromFileButton_Click">
+                    Click="AddFromFileByTypeButton_Click">
                     </Button>
 
                     <Button
@@ -674,6 +686,17 @@
                         Margin="0 0 25 0"
                         Foreground="White"
                         Click="ExportProductsToFileButton_Click">
+                    </Button>
+
+                    <Button
+                        Style="{DynamicResource featureButtonStyle}"
+                        Height="50"
+                        Width="100"
+                        HorizontalAlignment="Right"
+                        Content="Export by type"
+                        Margin="0 0 25 0"
+                        Foreground="White"
+                        Click="ExportProductsByTypeToFileButton_Click">
                     </Button>
                 </StackPanel>
 

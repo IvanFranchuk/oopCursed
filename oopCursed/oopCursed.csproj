@@ -25,11 +25,17 @@
     <None Remove="img\sun.png" />
     <None Remove="img\Tool.png" />
     <None Remove="img\Toy.png" />
+    <None Remove="img\User.png" />
     <None Remove="light_login_bg_croped.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="img\User.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="EPPlus" Version="7.0.1" />
     <PackageReference Include="MaterialDesign.Avalonia.PackIcon" Version="1.34.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />

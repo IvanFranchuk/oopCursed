@@ -105,5 +105,13 @@ namespace oopCursed
             Close();
         }
 
+        private void OpenLoginWindow_Click(object sender, RoutedEventArgs e)
+        {
+            loginWindow objLoginWindow = new loginWindow();
+            this.Visibility = Visibility.Hidden;
+            objLoginWindow.Show();
+            Close();
+        }
+        
     }
 }

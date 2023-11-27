@@ -48,12 +48,12 @@ namespace oopCursed
                     }
                     else
                     {
-                        MessageBox.Show("Невірний пароль.");
+                        MessageBox.Show("Incorrect password.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Користувача з такою адресою електронної пошти не існує.");
+                    MessageBox.Show("There is no user with this email address.");
                 }
             }
         }

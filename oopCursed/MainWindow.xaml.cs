@@ -24,6 +24,7 @@ using System.Collections.ObjectModel;
 using oopCursed.code1;
 using DynamicData;
 using Microsoft.Win32;
+using System.IO;
 
 
 namespace oopCursed
@@ -256,6 +257,23 @@ namespace oopCursed
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Visible;
         }
 
+        private void ExportGroupProductsByManufactureDateAndTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                string contentToSave = GroupByTypeAndDateResultTextBlock.Text;
+                Console.WriteLine($"Вибраний файл: {filePath}");
+                SaveGroupByPriceToFile(filePath, contentToSave);
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }
+        }
 
 
 
@@ -286,9 +304,6 @@ namespace oopCursed
             GroupByPriceResultTextBlock.Text = resultBuilder.ToString();
             GroupByPriceResultPanel.Visibility = Visibility.Visible;
         }
-
-
-
         private void ExitGroupByTypeAndDate_Click(object sender, RoutedEventArgs e)
         {
             GroupByTypeAndDateResultPanel.Visibility = Visibility.Collapsed;
@@ -298,23 +313,42 @@ namespace oopCursed
             ProductListPanel.Visibility = Visibility.Visible;
         }
 
+        private void SaveGroupByPriceToFile(string filePath, string content)
+        {
+            try
+            {
+                File.WriteAllText(filePath, content);
+                MessageBox.Show("Content saved to file successfully.", "File Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving content to file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
+        private void ExportGroupProductsByPriceButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                string contentToSave = GroupByPriceResultTextBlock.Text;
+                Console.WriteLine($"Вибраний файл: {filePath}");
+                SaveGroupByPriceToFile(filePath, contentToSave);
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }            
+        }
 
 
 
 
         //|=============================================| EDIT CONTENT IN LIST |=============================================|
-        // |=================| ADD NEW PRODUCT |=================|
+        //|=================| ADD NEW PRODUCT |=================|
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = true;
@@ -323,7 +357,6 @@ namespace oopCursed
         private void AddProductCancel_Click(object sender, RoutedEventArgs e)
         {
             AddProductPopup.IsOpen = false;
-            // Скинути значення елементів введення
             ProductNameTextBox.Text = "";
             PriceTextBox.Text = "";
             QuantityTextBox.Text = "";
@@ -433,6 +466,23 @@ namespace oopCursed
             }
            
         }
+        private void AddFromFileByTypeButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                productList.ReadProductsByTypeFromFile(filePath);
+                Console.WriteLine($"Вибраний файл: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }
+
+        }
         // |=================| EXPORT TO FILE |=================|
         private void ExportProductsToFileButton_Click(object sender, RoutedEventArgs e)
         {
@@ -450,6 +500,23 @@ namespace oopCursed
                 Console.WriteLine("Користувач скасував вибір файлу.");
             }
         }
+        private void ExportProductsByTypeToFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                string filePath = openFileDialog.FileName;
+                productList.WriteProductsByTypeToFile(filePath);
+                Console.WriteLine($"Вибраний файл: {filePath}");
+            }
+            else
+            {
+                Console.WriteLine("Користувач скасував вибір файлу.");
+            }
+        }
+
         //sort direction
         private void AscendingSorttb_Checked(object sender, RoutedEventArgs e)
         {

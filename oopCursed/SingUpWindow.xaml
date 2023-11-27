@@ -19,7 +19,7 @@
         </Border.Background>
         <Grid>
             <Border
-    Height="500"
+    Height="530"
     Width="400"
     Background="{DynamicResource mainColor}" 
     BorderBrush="{DynamicResource upBarColor}"
@@ -38,24 +38,27 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Name:" Margin="45 5 5 5" Grid.Row="0"/>
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="NameTextBox" Margin="5" Height="50" Width="300" Grid.Row="0"/>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="NameTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="0"/>
 
                     <TextBlock Text="Surname:" Margin="45 5 5 5" Grid.Row="1"/>
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="SuranameTextBox" Margin="5" Height="50" Width="300" Grid.Row="1"/>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="SuranameTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="1"/>
 
                     <TextBlock Text="WareHouse name:" Margin="45 5 5 5" Grid.Row="2"/>
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="WarehouseNameTextBox" Margin="5" Height="50" Width="300" Grid.Row="2"/>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="WarehouseNameTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="2"/>
 
                     <TextBlock Text="Email:" Margin="45 5 5 5" Grid.Row="3"/>
-                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="EmailTextBox" Margin="5" Height="50" Width="300" Grid.Row="3"/>
+                    <TextBox Style="{DynamicResource TextBoxStyle1}" x:Name="EmailTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="3"/>
 
                     <TextBlock Text="Password:" Margin="45 5 5 5" Grid.Row="4"/>
-                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="PasswordTextBox" Margin="5" Height="50" Width="300" Grid.Row="4"/>
+                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="PasswordTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="4"/>
 
                     <TextBlock Text="Confirm Password:" Margin="45 5 5 5" Grid.Row="5"/>
-                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="ConfirmPasswordTextBox" Margin="5" Height="50" Width="300" Grid.Row="5"/>
+                    <PasswordBox Style="{DynamicResource PasswordBoxStyle1}" x:Name="ConfirmPasswordTextBox" Margin="5" Height="50" Width="300" FontSize="20" Grid.Row="5"/>
 
-                    <Button Style="{DynamicResource featureButtonStyle}" Margin="0, 15, 0, 0" Height="70" Width="200" Content="Next" FontSize="22" Click="CreateAccountButton_Click" Foreground="White" Grid.Row="6"/>                    
+                    <Button Style="{DynamicResource featureButtonStyle}" Margin="0, 15, 0, 0" Height="70" Width="200" Content="Next" FontSize="22" Click="CreateAccountButton_Click" Foreground="White" Grid.Row="6"/>
+
+                    <Button Style="{DynamicResource featureButtonStyle}" Height="35" Width="90" Foreground="White" Content="Log in" Click="OpenLoginWindow_Click" Margin="0, 10, 0, 0"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7"/>
                 </Grid>
             </Border>
         </Grid>
